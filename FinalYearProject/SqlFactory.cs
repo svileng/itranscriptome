@@ -1,0 +1,99 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ExperimentsManager.Models;
+
+namespace ExperimentsManager.Helpers
+{
+    /// <summary>Factory for SQL queries, mainly used by models</summary>
+    public static class SqlFactory
+    {
+        /// <summary>Creates the SQL query to insert a new experiment in database</summary>
+        /// <returns>The SQL query</returns>
+        public static string CreateInsertExperimentQueryFromObject(Experiment e)
+        {
+            if (e == null) {
+                throw new NullReferenceException();
+            }
+
+            StringBuilder result = new StringBuilder();
+
+            result.Append("INSERT INTO experiments (database_used, database_name, database_web_link, ");
+            result.Append("database_institute, database_email, database_ref, dataset, dataset_title, ");
+            result.Append("dataset_description, dataset_type, dataset_pubmed_id, dataset_platform, ");
+            result.Append("dataset_platform_organism, dataset_platform_technology_type, ");
+            result.Append("dataset_feature_count, dataset_sample_organism, dataset_sample_type, ");
+            result.Append("dataset_reference_series, dataset_update_date) VALUES (");
+            result.Append("'"); result.Append(e.Database); result.Append("',");
+            result.Append("'"); result.Append(e.DatabaseName); result.Append("',");
+            result.Append("'"); result.Append(e.DatabaseWebLink); result.Append("',");
+            result.Append("'"); result.Append(e.DatabaseInstitute); result.Append("',");
+            result.Append("'"); result.Append(e.DatabaseEmail); result.Append("',");
+            result.Append("'"); result.Append(e.DatabaseRef); result.Append("',");
+            result.Append("'"); result.Append(e.Dataset); result.Append("',");
+            result.Append("'"); result.Append(e.DatasetTitle); result.Append("',");
+            result.Append("'"); result.Append(e.DatasetDescription); result.Append("',");
+            result.Append("'"); result.Append(e.DatasetType); result.Append("',");
+            result.Append("'"); result.Append(e.DatasetPubmedId); result.Append("',");
+            result.Append("'"); result.Append(e.DatasetPlatform); result.Append("',");
+            result.Append("'"); result.Append(e.DatasetPlatformOrganism); result.Append("',");
+            result.Append("'"); result.Append(e.DatasetPlatformTechnologyType); result.Append("',");
+            result.Append("'"); result.Append(e.DatasetFeatureCount); result.Append("',");
+            result.Append("'"); result.Append(e.DatasetSampleOrganism); result.Append("',");
+            result.Append("'"); result.Append(e.DatasetSampleType); result.Append("',");
+            result.Append("'"); result.Append(e.DatasetReferenceSeries); result.Append("',");
+            result.Append("'"); result.Append(e.DatasetUpdateDate); result.Append("')");
+
+            return result.ToString();
+        }
+
+        public static string CreateSelectExperimentQuery(string condition)
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append("SELECT * FROM experiments WHERE ");
+            result.Append("dataset = '"); result.Append(condition); result.Append("' OR ");
+            result.Append("database_name = '"); result.Append(condition); result.Append("' OR ");
+            result.Append("database_used = '"); result.Append(condition); result.Append("' LIMIT 1");
+
+            return result.ToString();
+        }
+
+        public static string CreateSelectAllExperimentsQuery()
+        {
+            string result = "SELECT * FROM experiments";
+            return result;
+        }
+
+        internal static string CreateUpdateExperimentQueryFromObject(Experiment e)
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.Append("UPDATE experiments SET ");
+            result.Append("database_used = "); result.Append("'"); result.Append(e.Database); result.Append("',");
+            result.Append("database_name = "); result.Append("'"); result.Append(e.DatabaseName); result.Append("',");
+            result.Append("database_web_link = "); result.Append("'"); result.Append(e.DatabaseWebLink); result.Append("',");
+            result.Append("database_institute = "); result.Append("'"); result.Append(e.DatabaseInstitute); result.Append("',");
+            result.Append("database_email = "); result.Append("'"); result.Append(e.DatabaseEmail); result.Append("',");
+            result.Append("database_ref = "); result.Append("'"); result.Append(e.DatabaseRef); result.Append("',");
+            result.Append("dataset = "); result.Append("'"); result.Append(e.Dataset); result.Append("',");
+            result.Append("dataset_title = "); result.Append("'"); result.Append(e.DatasetTitle); result.Append("',");
+            result.Append("dataset_description = "); result.Append("'"); result.Append(e.DatasetDescription); result.Append("',");
+            result.Append("dataset_type = "); result.Append("'"); result.Append(e.DatasetType); result.Append("',");
+            result.Append("dataset_pubmed_id = "); result.Append("'"); result.Append(e.DatasetPubmedId); result.Append("',");
+            result.Append("dataset_platform = "); result.Append("'"); result.Append(e.DatasetPlatform); result.Append("',");
+            result.Append("dataset_platform_organism = "); result.Append("'"); result.Append(e.DatasetPlatformOrganism); result.Append("',");
+            result.Append("dataset_platform_technology_type = "); result.Append("'"); result.Append(e.DatasetPlatformTechnologyType); result.Append("',");
+            result.Append("dataset_feature_count = "); result.Append("'"); result.Append(e.DatasetFeatureCount); result.Append("',");
+            result.Append("dataset_sample_organism = "); result.Append("'"); result.Append(e.DatasetSampleOrganism); result.Append("',");
+            result.Append("dataset_sample_type = "); result.Append("'"); result.Append(e.DatasetSampleType); result.Append("',");
+            result.Append("dataset_reference_series = "); result.Append("'"); result.Append(e.DatasetReferenceSeries); result.Append("',");
+            result.Append("dataset_update_date = "); result.Append("'"); result.Append(e.DatasetUpdateDate); result.Append("',");
+            result.Append("tags = "); result.Append("'"); result.Append(e.Tags); result.Append("' ");
+            result.Append("WHERE id = "); result.Append(e.Id);
+
+            return result.ToString();
+        }
+    }
+}
