@@ -38,6 +38,7 @@ namespace ExperimentsManager.Models
         public string DatasetUpdateDate { get; set; }
         public string Tags { get; set; }
         public List<ExperimentGSM> GSMs { get; set; }
+        public List<DatasetTableRow> DatasetTable { get; set; }
 
         #endregion
 
@@ -46,6 +47,7 @@ namespace ExperimentsManager.Models
         public Experiment()
         {
             GSMs = new List<ExperimentGSM>();
+            DatasetTable = new List<DatasetTableRow>();
         }
         #endregion
 
@@ -59,11 +61,18 @@ namespace ExperimentsManager.Models
             dbConnection.Open();
             try
             {
-                SQLiteCommand command = new SQLiteCommand(dbConnection);
-                command.CommandText = SqlFactory.CreateInsertExperimentQueryFromObject(this);
+                SQLiteCommand insertExperimentCommand = new SQLiteCommand(dbConnection);
+                SQLiteCommand insertGSMsCommand = new SQLiteCommand(dbConnection);
+                SQLiteCommand insertDatasetsCommand = new SQLiteCommand(dbConnection);
+
+                insertExperimentCommand.CommandText = SqlFactory.CreateInsertExperimentQueryFromObject(this);
+                insertGSMsCommand.CommandText = SqlFactory.CreateInsertGSMQueryFromObject(this);
+                insertDatasetsCommand.CommandText = SqlFactory.CreateInsertDatasetTableRowsQueryFromObject(this);
 
                 try {
-                    command.ExecuteNonQuery();
+                    insertExperimentCommand.ExecuteNonQuery();
+                    insertGSMsCommand.ExecuteNonQuery();
+                    insertDatasetsCommand.ExecuteNonQuery();
                     ExperimentsController.ExperimentsCacheExpired = true;
                 } catch (Exception e) {
                     MessageBox.Show(e.Message);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ExperimentsManager.Models;
 using System.Data.SQLite;
+using System.Windows.Forms;
 
 namespace ExperimentsManager.Helpers
 {
@@ -46,9 +47,11 @@ namespace ExperimentsManager.Helpers
         /// <param name="lineFromCsvFile">Data from CSV containing the value to be set</param>
         public static void SetExperimentPropertyFromCsvLine(Experiment experiment, string lineFromCsvFile)
         {
+            string[] data;
+
             if (lineFromCsvFile.Contains("="))
             {
-                string[] data = lineFromCsvFile.Split('=');
+                data = lineFromCsvFile.Split('=');
                 data = Normalise(data);
 
                 switch (data[0])
@@ -72,7 +75,7 @@ namespace ExperimentsManager.Helpers
                         experiment.DatabaseRef = data[1];
                         break;
                     case "^DATASET":
-                        experiment.Dataset = RemoveDotsAndCommas(data[1]);
+                        experiment.Dataset = RemoveCommas(data[1]);
                         break;
                     case "!dataset_title":
                         experiment.DatasetTitle = data[1];
@@ -118,6 +121,35 @@ namespace ExperimentsManager.Helpers
                     experiment.GSMs.Add(gsm);
                 }
             }
+            else
+            {
+                lineFromCsvFile = FixInvalidDatasetTableIdentifiers(lineFromCsvFile);
+                data = lineFromCsvFile.Split(',');
+
+                if (data[0].EndsWith("_at"))
+                {
+
+                    StringBuilder datasetValue = new StringBuilder();
+                    for (int i = 2; i < data.Length; i++)
+                    {
+                        try
+                        {
+                            datasetValue.Append(experiment.GSMs[i - 2].GSMId);
+                            datasetValue.Append("=");
+                            datasetValue.Append(data[i]);
+                            datasetValue.Append(";");
+                        }
+                        catch (ArgumentOutOfRangeException)
+                        {
+                            MessageBox.Show("Dataset table rows cannot contain double quotes and should be comma-separated. Row ID_REF: " + data[0], "Dataset table invalid row", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    datasetValue.Remove(datasetValue.Length - 1, 1); // remove last ';' separator
+
+                    DatasetTableRow datasetRow = new DatasetTableRow(data[0], data[1], datasetValue.ToString());
+                    experiment.DatasetTable.Add(datasetRow);
+                }
+            }
         }
 
         #endregion
@@ -145,17 +177,37 @@ namespace ExperimentsManager.Helpers
 
         /// <summary>Removes unwanted characters at the end of a dataset string</summary>
         /// <param name="str">The string containing the wrongly formatted dataset</param>
-        /// <returns>New string with all dot-chars and comma-chars removed</returns>
-        private static string RemoveDotsAndCommas(string str)
+        /// <returns>New string with all comma-chars removed</returns>
+        private static string RemoveCommas(string str)
         {
             string result = str;
 
+            // for some reason, some dataset strings were ending with a series of commas, e.g. GDS1620,,,,,,,
             if (str.EndsWith(","))
             {
                 result = result.Replace(",", "");
             }
 
             return result;
+        }
+
+        /// <summary>Fix badly formatted data from dataset table</summary>
+        /// <param name="lineFromCsvFile">Dataset table row string</param>
+        /// <returns>Properly formatted table row</returns>
+        private static string FixInvalidDatasetTableIdentifiers(string lineFromCsvFile)
+        {
+            // some special identifier which appears to be formatted wrong in all files
+            if (lineFromCsvFile.Contains("\"ENT1,AT\""))
+            {
+                lineFromCsvFile = lineFromCsvFile.Replace("\"ENT1,AT\"", "ENT1_AT");
+            }
+
+            // any single quotes will fail the SQL query
+            if (lineFromCsvFile.Contains("'"))
+            {
+                lineFromCsvFile = lineFromCsvFile.Replace("'", "");
+            }
+            return lineFromCsvFile;
         }
 
         #endregion

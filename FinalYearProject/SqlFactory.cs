@@ -17,6 +17,10 @@ namespace ExperimentsManager.Helpers
                 throw new NullReferenceException();
             }
 
+            if (string.IsNullOrEmpty(e.Dataset)) {
+                throw new ArgumentException("dataset can't be null or empty");
+            }
+
             StringBuilder result = new StringBuilder();
 
             result.Append("INSERT INTO experiments (database_used, database_name, database_web_link, ");
@@ -45,7 +49,30 @@ namespace ExperimentsManager.Helpers
             result.Append("'"); result.Append(e.DatasetReferenceSeries); result.Append("', ");
             result.Append("'"); result.Append(e.DatasetUpdateDate); result.Append("'); ");
 
-            result.Append(CreateInsertGSMQueryFromObject(e));
+            return result.ToString();
+        }
+
+        public static string CreateInsertDatasetTableRowsQueryFromObject(Experiment e)
+        {
+            if (e == null) {
+                throw new NullReferenceException();
+            }
+
+            StringBuilder result = new StringBuilder();
+
+            // optimisation: group all INSERTs into a single transaction
+            result.Append("BEGIN TRANSACTION; ");
+
+            foreach (DatasetTableRow dtr in e.DatasetTable)
+            {
+                result.Append("INSERT INTO datasets (experiment_id, id_ref, identifier, value) VALUES (");
+                result.Append("'"); result.Append(e.Dataset); result.Append("', ");
+                result.Append("'"); result.Append(dtr.IdRef); result.Append("', ");
+                result.Append("'"); result.Append(dtr.Identifier); result.Append("', ");
+                result.Append("'"); result.Append(dtr.Value); result.Append("'); ");
+            }
+
+            result.Append("COMMIT; ");
 
             return result.ToString();
         }
@@ -58,7 +85,8 @@ namespace ExperimentsManager.Helpers
 
             StringBuilder result = new StringBuilder();
 
-            foreach (ExperimentGSM gsm in e.GSMs) {
+            foreach (ExperimentGSM gsm in e.GSMs) 
+            {
                 result.Append("INSERT INTO gsms_data (experiment_id, gsm_id, gsm_value) VALUES (");
                 result.Append("'"); result.Append(e.Dataset); result.Append("', ");
                 result.Append("'"); result.Append(gsm.GSMId); result.Append("', ");

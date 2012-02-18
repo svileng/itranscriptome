@@ -86,6 +86,7 @@
     <Compile Include="Helpers\ExperimentHelper.cs" />
     <Compile Include="Helpers\FormHelper.cs" />
     <Compile Include="Helpers\ListViewItemSorter.cs" />
+    <Compile Include="Models\DatasetTableRow.cs" />
     <Compile Include="Models\ExperimentGSM.cs" />
     <Compile Include="SqlFactory.cs" />
     <Compile Include="Models\Experiment.cs" />
