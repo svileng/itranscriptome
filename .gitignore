@@ -4,7 +4,11 @@ FinalYearProject/bin/Debug/*.exe
 FinalYearProject/bin/Debug/*.config
 FinalYearProject/bin/Debug/*.application
 FinalYearProject/bin/Debug/*.manifest
-FinalYearProject/bin/Debug/*.pdf
+FinalYearProject/bin/Debug/*.pdb
 FinalYearProject/obj/x86/Debug/*.application
 FinalYearProject/obj/x86/Debug/*.exe
 FinalYearProject/obj/x86/Debug/*.pdb
+FinalYearProject/obj/x86/Debug/*.manifest
+FinalYearProject/obj/x86/Debug/*.txt
+FinalYearProject/obj/x86/Debug/*.cache
+FinalYearProject/obj/x86/Debug/*.tlog
