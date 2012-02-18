@@ -139,7 +139,7 @@ namespace ExperimentsManager.Models
                             experiment.GSMs.Clear();
                             while (reader.Read())
                             {
-                                ExperimentGSMHelper.SetExperimentGSMsFromDb(experiment, reader);
+                                ExperimentGSMHelper.AddExperimentGSMToExperimentFromDb(experiment, reader);
                             }
                         }
                     }
@@ -180,7 +180,7 @@ namespace ExperimentsManager.Models
                         result.GSMs.Clear();
                         while (reader.Read())
                         {
-                            ExperimentGSMHelper.SetExperimentGSMsFromDb(result, reader);
+                            ExperimentGSMHelper.AddExperimentGSMToExperimentFromDb(result, reader);
                         }
                     }
                 }
