@@ -72,7 +72,7 @@ namespace ExperimentsManager.Helpers
                         experiment.DatabaseRef = data[1];
                         break;
                     case "^DATASET":
-                        experiment.Dataset = data[1];
+                        experiment.Dataset = RemoveDotsAndCommas(data[1]);
                         break;
                     case "!dataset_title":
                         experiment.DatasetTitle = data[1];
@@ -111,6 +111,12 @@ namespace ExperimentsManager.Helpers
                         experiment.DatasetUpdateDate = data[1];
                         break;
                 }
+
+                if (data[0].StartsWith("#GSM"))
+                {
+                    ExperimentGSM gsm = new ExperimentGSM(data[0], data[1]);
+                    experiment.GSMs.Add(gsm);
+                }
             }
         }
 
@@ -135,6 +141,21 @@ namespace ExperimentsManager.Helpers
             }
 
             return data;
+        }
+
+        /// <summary>Removes unwanted characters at the end of a dataset string</summary>
+        /// <param name="str">The string containing the wrongly formatted dataset</param>
+        /// <returns>New string with all dot-chars and comma-chars removed</returns>
+        private static string RemoveDotsAndCommas(string str)
+        {
+            string result = str;
+
+            if (str.EndsWith(","))
+            {
+                result = result.Replace(",", "");
+            }
+
+            return result;
         }
 
         #endregion

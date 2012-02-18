@@ -1,2 +1,3 @@
-FinalYearProject\bin\Debug\*.s3db
-FinalYearProject\*.pfx
+FinalYearProject/bin/Debug/*.s3db
+FinalYearProject/*.pfx
+FinalYearProject/bin/Debug/ExperimentsManager.application

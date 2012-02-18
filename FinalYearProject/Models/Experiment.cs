@@ -37,6 +37,7 @@ namespace ExperimentsManager.Models
         public string DatasetReferenceSeries { get; set; }
         public string DatasetUpdateDate { get; set; }
         public string Tags { get; set; }
+        public List<ExperimentGSM> GSMs { get; set; }
 
         #endregion
 
@@ -44,7 +45,7 @@ namespace ExperimentsManager.Models
         /// <summary>Default constructor</summary>
         public Experiment()
         {
-
+            GSMs = new List<ExperimentGSM>();
         }
         #endregion
 
@@ -112,6 +113,7 @@ namespace ExperimentsManager.Models
             dbConnection.Open();
 
             try {
+                
                 SQLiteCommand command = new SQLiteCommand(dbConnection);
                 command.CommandText = SqlFactory.CreateSelectAllExperimentsQuery();   
                 using (SQLiteDataReader reader = command.ExecuteReader()) 
@@ -126,6 +128,23 @@ namespace ExperimentsManager.Models
                         }
                     }
                 }
+
+                foreach (Experiment experiment in result)
+                {
+                    command.CommandText = SqlFactory.CreateSelectGSMsForExperimentQuery(experiment.Dataset);
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            experiment.GSMs.Clear();
+                            while (reader.Read())
+                            {
+                                ExperimentGSMHelper.SetExperimentGSMsFromDb(experiment, reader);
+                            }
+                        }
+                    }
+                }
+
             } finally {
                 dbConnection.Close();
             }
@@ -152,6 +171,20 @@ namespace ExperimentsManager.Models
                         ExperimentHelper.SetExperimentPropertiesFromDb(result, reader);
                     }
                 }
+
+                command.CommandText = SqlFactory.CreateSelectGSMsForExperimentQuery(result.Dataset);
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        result.GSMs.Clear();
+                        while (reader.Read())
+                        {
+                            ExperimentGSMHelper.SetExperimentGSMsFromDb(result, reader);
+                        }
+                    }
+                }
+
             } finally {
                 dbConnection.Close();
             }
@@ -161,7 +194,5 @@ namespace ExperimentsManager.Models
 
         #endregion
 
-        #region Private Methods
-        #endregion
     }
 }
