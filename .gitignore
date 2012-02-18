@@ -1,3 +1,6 @@
 FinalYearProject/bin/Debug/*.s3db
+FinalYearProject/bin/Debug/*exe*
+FinalYearProject/bin/Debug/*application*
 FinalYearProject/*.pfx
 FinalYearProject/bin/Debug/ExperimentsManager.application
+FinalYearProejct/obj/*
