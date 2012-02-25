@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using ExperimentsManager.Controllers;
 using System.IO;
 using ExperimentsManager.Helpers;
+using System.Threading;
 
 namespace ExperimentsManager.Views
 {
@@ -32,6 +33,8 @@ namespace ExperimentsManager.Views
         #region Private Instance Variables
         /// <summary>Current sorting order for the Experiments listview control</summary>
         private SortOrder lvExperimentsSortOrder = SortOrder.Ascending;
+        /// <summary>Used to set progress bar visibility</summary>
+        private enum ProgressBarStatus { Visible, Hidden };
         #endregion
 
         #region Constructors
@@ -64,9 +67,8 @@ namespace ExperimentsManager.Views
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    Controller.LoadExperimentFromCsvFile(dialog.FileName);
-                    statusStripLabel.Text = "Experiment loaded successfully!";
-                    FormHelper.UpdateExperimentsListView(lvExperiments, Controller.GetAllExperiments());
+                    SetStatusBarInfo("Loading experiment...", ProgressBarStatus.Visible);
+                    experimentLoader.RunWorkerAsync(dialog.FileName);
                 }
             }
         }
@@ -137,6 +139,52 @@ namespace ExperimentsManager.Views
             btnSaveTags.Enabled = true;
         }
 
+        private void experimentLoader_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                string fileName = (string)e.Argument;
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    throw new ArgumentException("Error: Invalid experiment file name");
+                }
+                Controller.LoadExperimentFromCsvFile(fileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                e.Cancel = true;
+            }
+        }
+
+        private void experimentLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                throw new Exception("Error: Problem while loading experiment data");
+            }
+            else if (e.Cancelled)
+            {
+                SetStatusBarInfo("Error while loading the experiment.", ProgressBarStatus.Hidden);
+            }
+            else
+            {
+                SetStatusBarInfo("Experiment loaded successfully!", ProgressBarStatus.Hidden);
+                FormHelper.UpdateExperimentsListView(lvExperiments, Controller.GetAllExperiments());
+            }
+        }
+
+        #endregion
+
+        #region Form Specific Helper Methods
+        /// <summary>Updates the status bar of the main form</summary>
+        /// <param name="text">Text to display on the status bar</param>
+        /// <param name="progressBarStatus">Set progress bar to either visible or hidden</param>
+        private void SetStatusBarInfo(string text, ProgressBarStatus progressBarStatus)
+        {
+            statusStripLabel.Text = string.Format("[{0}] {1}", DateTime.Now.ToShortTimeString(), text);
+            statusStripProgressBar.Visible = progressBarStatus == ProgressBarStatus.Visible ? true : false;
+        }
         #endregion
 
     }

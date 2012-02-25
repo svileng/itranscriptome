@@ -58,6 +58,8 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.scMain = new System.Windows.Forms.SplitContainer();
             this.scMainSubContainer = new System.Windows.Forms.SplitContainer();
+            this.statusStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.experimentLoader = new System.ComponentModel.BackgroundWorker();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.leftTabControl.SuspendLayout();
@@ -76,7 +78,8 @@
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusStripLabel});
+            this.statusStripLabel,
+            this.statusStripProgressBar});
             this.statusStrip.Location = new System.Drawing.Point(0, 533);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(860, 22);
@@ -390,6 +393,18 @@
             this.scMainSubContainer.SplitterDistance = 506;
             this.scMainSubContainer.TabIndex = 0;
             // 
+            // statusStripProgressBar
+            // 
+            this.statusStripProgressBar.Name = "statusStripProgressBar";
+            this.statusStripProgressBar.Size = new System.Drawing.Size(100, 16);
+            this.statusStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.statusStripProgressBar.Visible = false;
+            // 
+            // experimentLoader
+            // 
+            this.experimentLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.experimentLoader_DoWork);
+            this.experimentLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.experimentLoader_RunWorkerCompleted);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -458,6 +473,8 @@
         private System.Windows.Forms.Label lblTags;
         private System.Windows.Forms.TextBox txtTags;
         private System.Windows.Forms.Button btnSaveTags;
+        private System.Windows.Forms.ToolStripProgressBar statusStripProgressBar;
+        private System.ComponentModel.BackgroundWorker experimentLoader;
     }
 }
 

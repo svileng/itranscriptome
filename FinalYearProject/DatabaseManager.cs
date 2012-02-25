@@ -40,7 +40,7 @@ namespace ExperimentsManager
         {
             string pathToDatabase = Settings.Default.PathToDatabase;
             if (File.Exists(pathToDatabase)) {
-                string connectionString = "Data Source=" + pathToDatabase;
+                string connectionString = "Data Source=" + pathToDatabase + ";";
                 try {
                     Connection = new SQLiteConnection(connectionString);
                 } catch (Exception e) {
