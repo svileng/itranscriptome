@@ -30,6 +30,7 @@
         {
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusStripLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadExperimentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,8 +59,13 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.scMain = new System.Windows.Forms.SplitContainer();
             this.scMainSubContainer = new System.Windows.Forms.SplitContainer();
-            this.statusStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.experimentLoader = new System.ComponentModel.BackgroundWorker();
+            this.tpSelection = new System.Windows.Forms.TabPage();
+            this.lblSeeds = new System.Windows.Forms.Label();
+            this.nudSeeds = new System.Windows.Forms.NumericUpDown();
+            this.lblSignificance = new System.Windows.Forms.Label();
+            this.nudSignificance = new System.Windows.Forms.NumericUpDown();
+            this.btnRunSelectionAlgorithm = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.leftTabControl.SuspendLayout();
@@ -73,6 +79,9 @@
             this.scMainSubContainer.Panel1.SuspendLayout();
             this.scMainSubContainer.Panel2.SuspendLayout();
             this.scMainSubContainer.SuspendLayout();
+            this.tpSelection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSeeds)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSignificance)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -90,6 +99,13 @@
             // 
             this.statusStripLabel.Name = "statusStripLabel";
             this.statusStripLabel.Size = new System.Drawing.Size(0, 17);
+            // 
+            // statusStripProgressBar
+            // 
+            this.statusStripProgressBar.Name = "statusStripProgressBar";
+            this.statusStripProgressBar.Size = new System.Drawing.Size(100, 16);
+            this.statusStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.statusStripProgressBar.Visible = false;
             // 
             // menuStrip
             // 
@@ -149,12 +165,13 @@
             // leftTabControl
             // 
             this.leftTabControl.Controls.Add(this.tpSearch);
+            this.leftTabControl.Controls.Add(this.tpSelection);
             this.leftTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.leftTabControl.Location = new System.Drawing.Point(0, 0);
-            this.leftTabControl.MinimumSize = new System.Drawing.Size(150, 0);
+            this.leftTabControl.MinimumSize = new System.Drawing.Size(175, 0);
             this.leftTabControl.Name = "leftTabControl";
             this.leftTabControl.SelectedIndex = 0;
-            this.leftTabControl.Size = new System.Drawing.Size(150, 502);
+            this.leftTabControl.Size = new System.Drawing.Size(175, 502);
             this.leftTabControl.TabIndex = 0;
             // 
             // tpSearch
@@ -167,7 +184,7 @@
             this.tpSearch.Location = new System.Drawing.Point(4, 22);
             this.tpSearch.Name = "tpSearch";
             this.tpSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSearch.Size = new System.Drawing.Size(142, 476);
+            this.tpSearch.Size = new System.Drawing.Size(167, 476);
             this.tpSearch.TabIndex = 0;
             this.tpSearch.Text = "Search";
             this.tpSearch.UseVisualStyleBackColor = true;
@@ -185,7 +202,7 @@
             "Tags"});
             this.cbFilterBy.Location = new System.Drawing.Point(6, 25);
             this.cbFilterBy.Name = "cbFilterBy";
-            this.cbFilterBy.Size = new System.Drawing.Size(128, 21);
+            this.cbFilterBy.Size = new System.Drawing.Size(153, 21);
             this.cbFilterBy.TabIndex = 3;
             // 
             // lblFilterBy
@@ -214,7 +231,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtKeywords.Location = new System.Drawing.Point(6, 74);
             this.txtKeywords.Name = "txtKeywords";
-            this.txtKeywords.Size = new System.Drawing.Size(128, 20);
+            this.txtKeywords.Size = new System.Drawing.Size(153, 20);
             this.txtKeywords.TabIndex = 0;
             this.txtKeywords.TextChanged += new System.EventHandler(this.txtKeywords_TextChanged);
             // 
@@ -232,7 +249,7 @@
             this.grpExperimentDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpExperimentDetails.Location = new System.Drawing.Point(0, 0);
             this.grpExperimentDetails.Name = "grpExperimentDetails";
-            this.grpExperimentDetails.Size = new System.Drawing.Size(196, 502);
+            this.grpExperimentDetails.Size = new System.Drawing.Size(189, 502);
             this.grpExperimentDetails.TabIndex = 1;
             this.grpExperimentDetails.TabStop = false;
             this.grpExperimentDetails.Text = "Details";
@@ -263,7 +280,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTags.Location = new System.Drawing.Point(9, 281);
             this.txtTags.Name = "txtTags";
-            this.txtTags.Size = new System.Drawing.Size(177, 20);
+            this.txtTags.Size = new System.Drawing.Size(170, 20);
             this.txtTags.TabIndex = 5;
             this.txtTags.Enter += new System.EventHandler(this.txtTags_Enter);
             // 
@@ -275,7 +292,7 @@
             this.txtExperimentNameOutput.Location = new System.Drawing.Point(10, 42);
             this.txtExperimentNameOutput.Name = "txtExperimentNameOutput";
             this.txtExperimentNameOutput.ReadOnly = true;
-            this.txtExperimentNameOutput.Size = new System.Drawing.Size(177, 20);
+            this.txtExperimentNameOutput.Size = new System.Drawing.Size(170, 20);
             this.txtExperimentNameOutput.TabIndex = 4;
             // 
             // txtExperimentDescriptionOutput
@@ -288,7 +305,7 @@
             this.txtExperimentDescriptionOutput.Name = "txtExperimentDescriptionOutput";
             this.txtExperimentDescriptionOutput.ReadOnly = true;
             this.txtExperimentDescriptionOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtExperimentDescriptionOutput.Size = new System.Drawing.Size(177, 146);
+            this.txtExperimentDescriptionOutput.Size = new System.Drawing.Size(170, 146);
             this.txtExperimentDescriptionOutput.TabIndex = 3;
             // 
             // lblExperimentDescription
@@ -325,7 +342,7 @@
             this.lvExperiments.Location = new System.Drawing.Point(0, 0);
             this.lvExperiments.MultiSelect = false;
             this.lvExperiments.Name = "lvExperiments";
-            this.lvExperiments.Size = new System.Drawing.Size(506, 502);
+            this.lvExperiments.Size = new System.Drawing.Size(488, 502);
             this.lvExperiments.TabIndex = 2;
             this.lvExperiments.UseCompatibleStateImageBehavior = false;
             this.lvExperiments.View = System.Windows.Forms.View.Details;
@@ -364,14 +381,14 @@
             // scMain.Panel1
             // 
             this.scMain.Panel1.Controls.Add(this.leftTabControl);
-            this.scMain.Panel1MinSize = 150;
+            this.scMain.Panel1MinSize = 175;
             // 
             // scMain.Panel2
             // 
             this.scMain.Panel2.Controls.Add(this.scMainSubContainer);
             this.scMain.Panel2MinSize = 400;
             this.scMain.Size = new System.Drawing.Size(860, 502);
-            this.scMain.SplitterDistance = 150;
+            this.scMain.SplitterDistance = 175;
             this.scMain.TabIndex = 3;
             // 
             // scMainSubContainer
@@ -389,21 +406,76 @@
             // 
             this.scMainSubContainer.Panel2.Controls.Add(this.grpExperimentDetails);
             this.scMainSubContainer.Panel2MinSize = 150;
-            this.scMainSubContainer.Size = new System.Drawing.Size(706, 502);
-            this.scMainSubContainer.SplitterDistance = 506;
+            this.scMainSubContainer.Size = new System.Drawing.Size(681, 502);
+            this.scMainSubContainer.SplitterDistance = 488;
             this.scMainSubContainer.TabIndex = 0;
-            // 
-            // statusStripProgressBar
-            // 
-            this.statusStripProgressBar.Name = "statusStripProgressBar";
-            this.statusStripProgressBar.Size = new System.Drawing.Size(100, 16);
-            this.statusStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.statusStripProgressBar.Visible = false;
             // 
             // experimentLoader
             // 
             this.experimentLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.experimentLoader_DoWork);
             this.experimentLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.experimentLoader_RunWorkerCompleted);
+            // 
+            // tpSelection
+            // 
+            this.tpSelection.Controls.Add(this.btnRunSelectionAlgorithm);
+            this.tpSelection.Controls.Add(this.nudSignificance);
+            this.tpSelection.Controls.Add(this.lblSignificance);
+            this.tpSelection.Controls.Add(this.nudSeeds);
+            this.tpSelection.Controls.Add(this.lblSeeds);
+            this.tpSelection.Location = new System.Drawing.Point(4, 22);
+            this.tpSelection.Name = "tpSelection";
+            this.tpSelection.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSelection.Size = new System.Drawing.Size(167, 476);
+            this.tpSelection.TabIndex = 1;
+            this.tpSelection.Text = "Experiments Selection";
+            this.tpSelection.UseVisualStyleBackColor = true;
+            // 
+            // lblSeeds
+            // 
+            this.lblSeeds.AutoSize = true;
+            this.lblSeeds.Location = new System.Drawing.Point(4, 9);
+            this.lblSeeds.Name = "lblSeeds";
+            this.lblSeeds.Size = new System.Drawing.Size(37, 13);
+            this.lblSeeds.TabIndex = 0;
+            this.lblSeeds.Text = "Seeds";
+            // 
+            // nudSeeds
+            // 
+            this.nudSeeds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudSeeds.Location = new System.Drawing.Point(7, 25);
+            this.nudSeeds.Name = "nudSeeds";
+            this.nudSeeds.Size = new System.Drawing.Size(154, 20);
+            this.nudSeeds.TabIndex = 1;
+            // 
+            // lblSignificance
+            // 
+            this.lblSignificance.AutoSize = true;
+            this.lblSignificance.Location = new System.Drawing.Point(4, 57);
+            this.lblSignificance.Name = "lblSignificance";
+            this.lblSignificance.Size = new System.Drawing.Size(65, 13);
+            this.lblSignificance.TabIndex = 2;
+            this.lblSignificance.Text = "Significance";
+            // 
+            // nudSignificance
+            // 
+            this.nudSignificance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudSignificance.Location = new System.Drawing.Point(7, 73);
+            this.nudSignificance.Name = "nudSignificance";
+            this.nudSignificance.Size = new System.Drawing.Size(154, 20);
+            this.nudSignificance.TabIndex = 3;
+            // 
+            // btnRunSelectionAlgorithm
+            // 
+            this.btnRunSelectionAlgorithm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRunSelectionAlgorithm.Location = new System.Drawing.Point(6, 108);
+            this.btnRunSelectionAlgorithm.Name = "btnRunSelectionAlgorithm";
+            this.btnRunSelectionAlgorithm.Size = new System.Drawing.Size(155, 23);
+            this.btnRunSelectionAlgorithm.TabIndex = 4;
+            this.btnRunSelectionAlgorithm.Text = "Run Selection Algorithm";
+            this.btnRunSelectionAlgorithm.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -436,6 +508,10 @@
             this.scMainSubContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scMainSubContainer)).EndInit();
             this.scMainSubContainer.ResumeLayout(false);
+            this.tpSelection.ResumeLayout(false);
+            this.tpSelection.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSeeds)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSignificance)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -475,6 +551,12 @@
         private System.Windows.Forms.Button btnSaveTags;
         private System.Windows.Forms.ToolStripProgressBar statusStripProgressBar;
         private System.ComponentModel.BackgroundWorker experimentLoader;
+        private System.Windows.Forms.TabPage tpSelection;
+        private System.Windows.Forms.Button btnRunSelectionAlgorithm;
+        private System.Windows.Forms.NumericUpDown nudSignificance;
+        private System.Windows.Forms.Label lblSignificance;
+        private System.Windows.Forms.NumericUpDown nudSeeds;
+        private System.Windows.Forms.Label lblSeeds;
     }
 }
 
