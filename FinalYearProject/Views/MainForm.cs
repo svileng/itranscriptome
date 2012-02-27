@@ -42,6 +42,10 @@ namespace ExperimentsManager.Views
         /// <param name="controller">Form's controller</param>
         public MainForm(ExperimentsController controller)
         {
+            if (controller == null) {
+                throw new ArgumentNullException("Controller for form can't be null");
+            }
+
             InitializeComponent();
             Controller = controller;
         }
