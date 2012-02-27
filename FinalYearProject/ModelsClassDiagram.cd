@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="ExperimentsManager.Models.DatasetTableRow">
+    <Position X="5" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAiAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAgQAAAAAA=</HashCode>
+      <FileName>Models\DatasetTableRow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExperimentsManager.Models.Experiment">
+    <Position X="0.5" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>FASCAIACAEIgQAiQAkAgCCCAQAAAAEAAgoAAAAIBAAA=</HashCode>
+      <FileName>Models\Experiment.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DatasetTableRow" />
+      <Property Name="ExperimentGSM" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ExperimentsManager.Models.ExperimentGSM">
+    <Position X="5" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAiAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Models\ExperimentGSM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

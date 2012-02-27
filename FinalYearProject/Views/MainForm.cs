@@ -10,6 +10,7 @@ using ExperimentsManager.Controllers;
 using System.IO;
 using ExperimentsManager.Helpers;
 using System.Threading;
+using MathNet.Numerics.Statistics;
 
 namespace ExperimentsManager.Views
 {
@@ -172,6 +173,11 @@ namespace ExperimentsManager.Views
                 SetStatusBarInfo("Experiment loaded successfully!", ProgressBarStatus.Hidden);
                 FormHelper.UpdateExperimentsListView(lvExperiments, Controller.GetAllExperiments());
             }
+        }
+
+        private void btnRunSelectionAlgorithm_Click(object sender, EventArgs e)
+        {
+
         }
 
         #endregion

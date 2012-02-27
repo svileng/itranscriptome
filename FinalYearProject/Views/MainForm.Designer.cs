@@ -44,6 +44,12 @@
             this.lblFilterBy = new System.Windows.Forms.Label();
             this.lblKeywords = new System.Windows.Forms.Label();
             this.txtKeywords = new System.Windows.Forms.TextBox();
+            this.tpSelection = new System.Windows.Forms.TabPage();
+            this.btnRunSelectionAlgorithm = new System.Windows.Forms.Button();
+            this.nudSignificance = new System.Windows.Forms.NumericUpDown();
+            this.lblSignificance = new System.Windows.Forms.Label();
+            this.nudSeeds = new System.Windows.Forms.NumericUpDown();
+            this.lblSeeds = new System.Windows.Forms.Label();
             this.grpExperimentDetails = new System.Windows.Forms.GroupBox();
             this.btnSaveTags = new System.Windows.Forms.Button();
             this.lblTags = new System.Windows.Forms.Label();
@@ -60,16 +66,13 @@
             this.scMain = new System.Windows.Forms.SplitContainer();
             this.scMainSubContainer = new System.Windows.Forms.SplitContainer();
             this.experimentLoader = new System.ComponentModel.BackgroundWorker();
-            this.tpSelection = new System.Windows.Forms.TabPage();
-            this.lblSeeds = new System.Windows.Forms.Label();
-            this.nudSeeds = new System.Windows.Forms.NumericUpDown();
-            this.lblSignificance = new System.Windows.Forms.Label();
-            this.nudSignificance = new System.Windows.Forms.NumericUpDown();
-            this.btnRunSelectionAlgorithm = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.leftTabControl.SuspendLayout();
             this.tpSearch.SuspendLayout();
+            this.tpSelection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSignificance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSeeds)).BeginInit();
             this.grpExperimentDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
             this.scMain.Panel1.SuspendLayout();
@@ -79,9 +82,6 @@
             this.scMainSubContainer.Panel1.SuspendLayout();
             this.scMainSubContainer.Panel2.SuspendLayout();
             this.scMainSubContainer.SuspendLayout();
-            this.tpSelection.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSeeds)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSignificance)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -234,6 +234,69 @@
             this.txtKeywords.Size = new System.Drawing.Size(153, 20);
             this.txtKeywords.TabIndex = 0;
             this.txtKeywords.TextChanged += new System.EventHandler(this.txtKeywords_TextChanged);
+            // 
+            // tpSelection
+            // 
+            this.tpSelection.Controls.Add(this.btnRunSelectionAlgorithm);
+            this.tpSelection.Controls.Add(this.nudSignificance);
+            this.tpSelection.Controls.Add(this.lblSignificance);
+            this.tpSelection.Controls.Add(this.nudSeeds);
+            this.tpSelection.Controls.Add(this.lblSeeds);
+            this.tpSelection.Location = new System.Drawing.Point(4, 22);
+            this.tpSelection.Name = "tpSelection";
+            this.tpSelection.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSelection.Size = new System.Drawing.Size(167, 476);
+            this.tpSelection.TabIndex = 1;
+            this.tpSelection.Text = "Experiments Selection";
+            this.tpSelection.UseVisualStyleBackColor = true;
+            // 
+            // btnRunSelectionAlgorithm
+            // 
+            this.btnRunSelectionAlgorithm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRunSelectionAlgorithm.Location = new System.Drawing.Point(6, 108);
+            this.btnRunSelectionAlgorithm.Name = "btnRunSelectionAlgorithm";
+            this.btnRunSelectionAlgorithm.Size = new System.Drawing.Size(155, 23);
+            this.btnRunSelectionAlgorithm.TabIndex = 4;
+            this.btnRunSelectionAlgorithm.Text = "Run Selection Algorithm";
+            this.btnRunSelectionAlgorithm.UseVisualStyleBackColor = true;
+            this.btnRunSelectionAlgorithm.Click += new System.EventHandler(this.btnRunSelectionAlgorithm_Click);
+            // 
+            // nudSignificance
+            // 
+            this.nudSignificance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudSignificance.Location = new System.Drawing.Point(7, 73);
+            this.nudSignificance.Name = "nudSignificance";
+            this.nudSignificance.Size = new System.Drawing.Size(154, 20);
+            this.nudSignificance.TabIndex = 3;
+            // 
+            // lblSignificance
+            // 
+            this.lblSignificance.AutoSize = true;
+            this.lblSignificance.Location = new System.Drawing.Point(4, 57);
+            this.lblSignificance.Name = "lblSignificance";
+            this.lblSignificance.Size = new System.Drawing.Size(65, 13);
+            this.lblSignificance.TabIndex = 2;
+            this.lblSignificance.Text = "Significance";
+            // 
+            // nudSeeds
+            // 
+            this.nudSeeds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudSeeds.Location = new System.Drawing.Point(7, 25);
+            this.nudSeeds.Name = "nudSeeds";
+            this.nudSeeds.Size = new System.Drawing.Size(154, 20);
+            this.nudSeeds.TabIndex = 1;
+            // 
+            // lblSeeds
+            // 
+            this.lblSeeds.AutoSize = true;
+            this.lblSeeds.Location = new System.Drawing.Point(4, 9);
+            this.lblSeeds.Name = "lblSeeds";
+            this.lblSeeds.Size = new System.Drawing.Size(37, 13);
+            this.lblSeeds.TabIndex = 0;
+            this.lblSeeds.Text = "Seeds";
             // 
             // grpExperimentDetails
             // 
@@ -415,68 +478,6 @@
             this.experimentLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.experimentLoader_DoWork);
             this.experimentLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.experimentLoader_RunWorkerCompleted);
             // 
-            // tpSelection
-            // 
-            this.tpSelection.Controls.Add(this.btnRunSelectionAlgorithm);
-            this.tpSelection.Controls.Add(this.nudSignificance);
-            this.tpSelection.Controls.Add(this.lblSignificance);
-            this.tpSelection.Controls.Add(this.nudSeeds);
-            this.tpSelection.Controls.Add(this.lblSeeds);
-            this.tpSelection.Location = new System.Drawing.Point(4, 22);
-            this.tpSelection.Name = "tpSelection";
-            this.tpSelection.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSelection.Size = new System.Drawing.Size(167, 476);
-            this.tpSelection.TabIndex = 1;
-            this.tpSelection.Text = "Experiments Selection";
-            this.tpSelection.UseVisualStyleBackColor = true;
-            // 
-            // lblSeeds
-            // 
-            this.lblSeeds.AutoSize = true;
-            this.lblSeeds.Location = new System.Drawing.Point(4, 9);
-            this.lblSeeds.Name = "lblSeeds";
-            this.lblSeeds.Size = new System.Drawing.Size(37, 13);
-            this.lblSeeds.TabIndex = 0;
-            this.lblSeeds.Text = "Seeds";
-            // 
-            // nudSeeds
-            // 
-            this.nudSeeds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.nudSeeds.Location = new System.Drawing.Point(7, 25);
-            this.nudSeeds.Name = "nudSeeds";
-            this.nudSeeds.Size = new System.Drawing.Size(154, 20);
-            this.nudSeeds.TabIndex = 1;
-            // 
-            // lblSignificance
-            // 
-            this.lblSignificance.AutoSize = true;
-            this.lblSignificance.Location = new System.Drawing.Point(4, 57);
-            this.lblSignificance.Name = "lblSignificance";
-            this.lblSignificance.Size = new System.Drawing.Size(65, 13);
-            this.lblSignificance.TabIndex = 2;
-            this.lblSignificance.Text = "Significance";
-            // 
-            // nudSignificance
-            // 
-            this.nudSignificance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.nudSignificance.Location = new System.Drawing.Point(7, 73);
-            this.nudSignificance.Name = "nudSignificance";
-            this.nudSignificance.Size = new System.Drawing.Size(154, 20);
-            this.nudSignificance.TabIndex = 3;
-            // 
-            // btnRunSelectionAlgorithm
-            // 
-            this.btnRunSelectionAlgorithm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRunSelectionAlgorithm.Location = new System.Drawing.Point(6, 108);
-            this.btnRunSelectionAlgorithm.Name = "btnRunSelectionAlgorithm";
-            this.btnRunSelectionAlgorithm.Size = new System.Drawing.Size(155, 23);
-            this.btnRunSelectionAlgorithm.TabIndex = 4;
-            this.btnRunSelectionAlgorithm.Text = "Run Selection Algorithm";
-            this.btnRunSelectionAlgorithm.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -498,6 +499,10 @@
             this.leftTabControl.ResumeLayout(false);
             this.tpSearch.ResumeLayout(false);
             this.tpSearch.PerformLayout();
+            this.tpSelection.ResumeLayout(false);
+            this.tpSelection.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSignificance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSeeds)).EndInit();
             this.grpExperimentDetails.ResumeLayout(false);
             this.grpExperimentDetails.PerformLayout();
             this.scMain.Panel1.ResumeLayout(false);
@@ -508,10 +513,6 @@
             this.scMainSubContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scMainSubContainer)).EndInit();
             this.scMainSubContainer.ResumeLayout(false);
-            this.tpSelection.ResumeLayout(false);
-            this.tpSelection.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSeeds)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSignificance)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
