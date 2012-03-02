@@ -45,6 +45,8 @@
             this.lblKeywords = new System.Windows.Forms.Label();
             this.txtKeywords = new System.Windows.Forms.TextBox();
             this.tpSelection = new System.Windows.Forms.TabPage();
+            this.lblIdentifiers = new System.Windows.Forms.Label();
+            this.txtIdentifiers = new System.Windows.Forms.TextBox();
             this.btnRunSelectionAlgorithm = new System.Windows.Forms.Button();
             this.nudSignificance = new System.Windows.Forms.NumericUpDown();
             this.lblSignificance = new System.Windows.Forms.Label();
@@ -66,8 +68,6 @@
             this.scMain = new System.Windows.Forms.SplitContainer();
             this.scMainSubContainer = new System.Windows.Forms.SplitContainer();
             this.experimentLoader = new System.ComponentModel.BackgroundWorker();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.leftTabControl.SuspendLayout();
@@ -239,8 +239,8 @@
             // 
             // tpSelection
             // 
-            this.tpSelection.Controls.Add(this.label1);
-            this.tpSelection.Controls.Add(this.textBox1);
+            this.tpSelection.Controls.Add(this.lblIdentifiers);
+            this.tpSelection.Controls.Add(this.txtIdentifiers);
             this.tpSelection.Controls.Add(this.btnRunSelectionAlgorithm);
             this.tpSelection.Controls.Add(this.nudSignificance);
             this.tpSelection.Controls.Add(this.lblSignificance);
@@ -253,6 +253,22 @@
             this.tpSelection.TabIndex = 1;
             this.tpSelection.Text = "Experiments Selection";
             this.tpSelection.UseVisualStyleBackColor = true;
+            // 
+            // lblIdentifiers
+            // 
+            this.lblIdentifiers.AutoSize = true;
+            this.lblIdentifiers.Location = new System.Drawing.Point(4, 109);
+            this.lblIdentifiers.Name = "lblIdentifiers";
+            this.lblIdentifiers.Size = new System.Drawing.Size(145, 13);
+            this.lblIdentifiers.TabIndex = 6;
+            this.lblIdentifiers.Text = "Identifiers (comma-separated)";
+            // 
+            // txtIdentifiers
+            // 
+            this.txtIdentifiers.Location = new System.Drawing.Point(7, 125);
+            this.txtIdentifiers.Name = "txtIdentifiers";
+            this.txtIdentifiers.Size = new System.Drawing.Size(154, 20);
+            this.txtIdentifiers.TabIndex = 5;
             // 
             // btnRunSelectionAlgorithm
             // 
@@ -418,7 +434,6 @@
             this.lvExperiments.GridLines = true;
             this.lvExperiments.HideSelection = false;
             this.lvExperiments.Location = new System.Drawing.Point(0, 0);
-            this.lvExperiments.MultiSelect = false;
             this.lvExperiments.Name = "lvExperiments";
             this.lvExperiments.Size = new System.Drawing.Size(488, 502);
             this.lvExperiments.TabIndex = 2;
@@ -492,22 +507,6 @@
             // 
             this.experimentLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.experimentLoader_DoWork);
             this.experimentLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.experimentLoader_RunWorkerCompleted);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(7, 125);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(154, 20);
-            this.textBox1.TabIndex = 5;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 109);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(145, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Identifiers (comma-separated)";
             // 
             // MainForm
             // 
@@ -589,8 +588,8 @@
         private System.Windows.Forms.Label lblSignificance;
         private System.Windows.Forms.NumericUpDown nudSeeds;
         private System.Windows.Forms.Label lblSeeds;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label lblIdentifiers;
+        private System.Windows.Forms.TextBox txtIdentifiers;
     }
 }
 
