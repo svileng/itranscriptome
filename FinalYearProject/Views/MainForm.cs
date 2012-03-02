@@ -126,8 +126,10 @@ namespace ExperimentsManager.Views
             try
             {
                 ListViewItem lvi = lvExperiments.SelectedItems[0];
-                lvi.SubItems[COL_INDEX_TAGS].Text = txtTags.Text;
+                
                 Controller.UpdateExperimentTags(lvi.SubItems[COL_INDEX_DATASET].Text, txtTags.Text);
+                FormHelper.UpdateExperimentsListView(lvExperiments, Controller.GetAllExperiments());
+
                 btnSaveTags.Enabled = false;
             }
             catch (ArgumentOutOfRangeException)
