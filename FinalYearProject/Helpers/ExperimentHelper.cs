@@ -134,8 +134,6 @@ namespace ExperimentsManager.Helpers
                     {
                         try
                         {
-                            datasetValue.Append(experiment.GSMs[i - 2].GSMId);
-                            datasetValue.Append("=");
                             datasetValue.Append(data[i]);
                             datasetValue.Append(";");
                         }
