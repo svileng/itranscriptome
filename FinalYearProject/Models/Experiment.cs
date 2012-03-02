@@ -108,6 +108,21 @@ namespace ExperimentsManager.Models
             }
         }
 
+        /// <summary>Loads the dataset table for the experiment from the database</summary>
+        /// <remarks>Since this operation can take a second or two, it can visible freeze the UI for a bit.
+        /// Load the dataset table only when necessary and preferably in a separate thread.</remarks>
+        public void LoadDatasetTable()
+        {
+            SQLiteConnection dbConnection = DatabaseManager.Instance.Connection;
+            dbConnection.Open();
+
+            try {
+                SetDatasetTableRows(this, new SQLiteCommand(dbConnection));
+            } finally {
+                dbConnection.Close();
+            }
+        }
+
         #endregion
 
         #region Public Static Methods
@@ -122,7 +137,7 @@ namespace ExperimentsManager.Models
             dbConnection.Open();
 
             try {
-                
+
                 SQLiteCommand command = new SQLiteCommand(dbConnection);
                 command.CommandText = SqlFactory.CreateSelectAllExperimentsQuery();   
                 using (SQLiteDataReader reader = command.ExecuteReader()) 
@@ -140,18 +155,8 @@ namespace ExperimentsManager.Models
 
                 foreach (Experiment experiment in result)
                 {
-                    command.CommandText = SqlFactory.CreateSelectGSMsForExperimentQuery(experiment.Dataset);
-                    using (SQLiteDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            experiment.GSMs.Clear();
-                            while (reader.Read())
-                            {
-                                ExperimentGSMHelper.AddExperimentGSMToExperimentFromDb(experiment, reader);
-                            }
-                        }
-                    }
+                    // get experiment GSMs
+                    SetExperimentGSMs(experiment, command);
                 }
 
             } finally {
@@ -169,6 +174,9 @@ namespace ExperimentsManager.Models
             dbConnection.Open();
 
             try {
+
+                // get experiment metadata
+
                 SQLiteCommand command = new SQLiteCommand(dbConnection);
                 command.CommandText = SqlFactory.CreateSelectExperimentQuery(condition);
                 using (SQLiteDataReader reader = command.ExecuteReader())
@@ -181,24 +189,56 @@ namespace ExperimentsManager.Models
                     }
                 }
 
-                command.CommandText = SqlFactory.CreateSelectGSMsForExperimentQuery(result.Dataset);
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        result.GSMs.Clear();
-                        while (reader.Read())
-                        {
-                            ExperimentGSMHelper.AddExperimentGSMToExperimentFromDb(result, reader);
-                        }
-                    }
-                }
+                // get experiment GSMs
+                SetExperimentGSMs(result, command);
 
             } finally {
                 dbConnection.Close();
             }
 
             return result;
+        }
+
+        #endregion
+
+        #region Private Static Methods
+
+        /// <summary>Selects, reads and sets Experiment GSMs for Experiment</summary>
+        /// <param name="result">Experiment to update</param>
+        /// <param name="command">Command to use for the select the query</param>
+        private static void SetExperimentGSMs(Experiment result, SQLiteCommand command)
+        {
+            command.CommandText = SqlFactory.CreateSelectGSMsForExperimentQuery(result.Dataset);
+            using (SQLiteDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    result.GSMs.Clear();
+                    while (reader.Read())
+                    {
+                        ExperimentGSMHelper.AddExperimentGSMToExperimentFromDb(result, reader);
+                    }
+                }
+            }
+        }
+
+        /// <summary>Selects, reads and sets the DatasetTable for Experiment</summary>
+        /// <param name="result">Experiment to update</param>
+        /// <param name="command">Command to use for the select the query</param>
+        private static void SetDatasetTableRows(Experiment result, SQLiteCommand command)
+        {
+            command.CommandText = SqlFactory.CreateSelectDatasetTableRowsForExperimentQuery(result.Dataset);
+            using (SQLiteDataReader reader = command.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    result.DatasetTable.Clear();
+                    while (reader.Read())
+                    {
+                        DatasetTableRowHelper.AddDatasetTableRowToExperimentFromDb(result, reader);
+                    }
+                }
+            }
         }
 
         #endregion

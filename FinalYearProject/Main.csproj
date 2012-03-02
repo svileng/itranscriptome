@@ -84,7 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ExperimentsController.cs" />
+    <Compile Include="Controllers\ExperimentSelectionController.cs" />
     <Compile Include="DatabaseManager.cs" />
+    <Compile Include="Helpers\DatasetTableRowHelper.cs" />
     <Compile Include="Helpers\ExperimentGSMHelper.cs" />
     <Compile Include="Helpers\ExperimentHelper.cs" />
     <Compile Include="Helpers\FormHelper.cs" />

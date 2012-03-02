@@ -14,11 +14,11 @@ namespace ExperimentsManager.Helpers
         public static string CreateInsertExperimentQueryFromObject(Experiment e)
         {
             if (e == null) {
-                throw new NullReferenceException();
+                throw new ArgumentNullException("Invalid query argument");
             }
 
             if (string.IsNullOrEmpty(e.Dataset)) {
-                throw new ArgumentException("dataset can't be null or empty");
+                throw new ArgumentException("Experiment dataset is null or empty");
             }
 
             StringBuilder result = new StringBuilder();
@@ -55,7 +55,7 @@ namespace ExperimentsManager.Helpers
         public static string CreateInsertDatasetTableRowsQueryFromObject(Experiment e)
         {
             if (e == null) {
-                throw new NullReferenceException();
+                throw new ArgumentNullException("Invalid query argument");
             }
 
             StringBuilder result = new StringBuilder();
@@ -80,7 +80,7 @@ namespace ExperimentsManager.Helpers
         public static string CreateInsertGSMQueryFromObject(Experiment e)
         {
             if (e == null) {
-                throw new NullReferenceException();
+                throw new ArgumentNullException("Invalid query argument");
             }
 
             StringBuilder result = new StringBuilder();
@@ -99,7 +99,7 @@ namespace ExperimentsManager.Helpers
         public static string CreateSelectExperimentQuery(string condition)
         {
             if (string.IsNullOrEmpty(condition)) {
-                throw new ArgumentException();
+                throw new ArgumentNullException("Invalid query argument");
             }
 
             StringBuilder result = new StringBuilder();
@@ -121,7 +121,7 @@ namespace ExperimentsManager.Helpers
         internal static string CreateUpdateExperimentQueryFromObject(Experiment e)
         {
             if (e == null) {
-                throw new NullReferenceException();
+                throw new ArgumentNullException("Invalid query argument");
             }
 
             StringBuilder result = new StringBuilder();
@@ -155,12 +155,27 @@ namespace ExperimentsManager.Helpers
         public static string CreateSelectGSMsForExperimentQuery(string experiment_id)
         {
             if (string.IsNullOrEmpty(experiment_id)) {
-                throw new ArgumentException();
+                throw new ArgumentNullException("Invalid query argument");
             }
 
             StringBuilder result = new StringBuilder();
 
-            result.Append("SELECT * from gsms_data WHERE experiment_id = '");
+            result.Append("SELECT * FROM gsms_data WHERE experiment_id = '");
+            result.Append(experiment_id);
+            result.Append("'");
+
+            return result.ToString();
+        }
+
+        internal static string CreateSelectDatasetTableRowsForExperimentQuery(string experiment_id)
+        {
+            if (string.IsNullOrEmpty(experiment_id)) {
+                throw new ArgumentNullException("Invalid query argument");
+            }
+
+            StringBuilder result = new StringBuilder();
+
+            result.Append("SELECT * FROM datasets WHERE experiment_id = '");
             result.Append(experiment_id);
             result.Append("'");
 

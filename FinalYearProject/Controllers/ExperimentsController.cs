@@ -63,12 +63,14 @@ namespace ExperimentsManager.Controllers
         }
 
         /// <summary>Returns all experiments stored database</summary>
+        /// <remarks>Will update experiments cache if needed</remarks>
         /// <returns>Array of Experiments</returns>
         public Experiment[] GetAllExperiments()
         {
             if (ExperimentsCacheExpired)
             {
                 cachedExperiments = Experiment.All();
+                ExperimentsCacheExpired = false;
             }
 
             return cachedExperiments;
@@ -76,7 +78,25 @@ namespace ExperimentsManager.Controllers
 
         public Experiment FindExperimentByDataset(string dataset)
         {
-            return Experiment.FindBy(dataset);
+            Experiment result = null;
+
+            if (ExperimentsCacheExpired)
+            {
+                result = Experiment.FindBy(dataset);
+            }
+            else
+            {
+                foreach (Experiment e in cachedExperiments)
+                {
+                    if (e.Dataset == dataset)
+                    {
+                        result = e;
+                        break;
+                    }
+                }
+            }
+
+            return result;
         }
 
         public void UpdateExperimentTags(string dataset, string tags)
