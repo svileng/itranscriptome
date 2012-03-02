@@ -74,14 +74,14 @@ namespace ExperimentsManager.Controllers
             return cachedExperiments;
         }
 
-        public Experiment FindByDataset(string dataset)
+        public Experiment FindExperimentByDataset(string dataset)
         {
             return Experiment.FindBy(dataset);
         }
 
         public void UpdateExperimentTags(string dataset, string tags)
         {
-            Experiment experiment = FindByDataset(dataset);
+            Experiment experiment = FindExperimentByDataset(dataset);
             experiment.Tags = tags;
             experiment.Update();
         }
