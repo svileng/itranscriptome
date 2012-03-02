@@ -66,6 +66,8 @@
             this.scMain = new System.Windows.Forms.SplitContainer();
             this.scMainSubContainer = new System.Windows.Forms.SplitContainer();
             this.experimentLoader = new System.ComponentModel.BackgroundWorker();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.leftTabControl.SuspendLayout();
@@ -237,6 +239,8 @@
             // 
             // tpSelection
             // 
+            this.tpSelection.Controls.Add(this.label1);
+            this.tpSelection.Controls.Add(this.textBox1);
             this.tpSelection.Controls.Add(this.btnRunSelectionAlgorithm);
             this.tpSelection.Controls.Add(this.nudSignificance);
             this.tpSelection.Controls.Add(this.lblSignificance);
@@ -254,9 +258,9 @@
             // 
             this.btnRunSelectionAlgorithm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRunSelectionAlgorithm.Location = new System.Drawing.Point(6, 108);
+            this.btnRunSelectionAlgorithm.Location = new System.Drawing.Point(7, 162);
             this.btnRunSelectionAlgorithm.Name = "btnRunSelectionAlgorithm";
-            this.btnRunSelectionAlgorithm.Size = new System.Drawing.Size(155, 23);
+            this.btnRunSelectionAlgorithm.Size = new System.Drawing.Size(154, 27);
             this.btnRunSelectionAlgorithm.TabIndex = 4;
             this.btnRunSelectionAlgorithm.Text = "Run Selection Algorithm";
             this.btnRunSelectionAlgorithm.UseVisualStyleBackColor = true;
@@ -266,7 +270,18 @@
             // 
             this.nudSignificance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudSignificance.DecimalPlaces = 5;
+            this.nudSignificance.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
             this.nudSignificance.Location = new System.Drawing.Point(7, 73);
+            this.nudSignificance.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.nudSignificance.Name = "nudSignificance";
             this.nudSignificance.Size = new System.Drawing.Size(154, 20);
             this.nudSignificance.TabIndex = 3;
@@ -478,6 +493,22 @@
             this.experimentLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.experimentLoader_DoWork);
             this.experimentLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.experimentLoader_RunWorkerCompleted);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(7, 125);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(154, 20);
+            this.textBox1.TabIndex = 5;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 109);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(145, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Identifiers (comma-separated)";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -558,6 +589,8 @@
         private System.Windows.Forms.Label lblSignificance;
         private System.Windows.Forms.NumericUpDown nudSeeds;
         private System.Windows.Forms.Label lblSeeds;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
