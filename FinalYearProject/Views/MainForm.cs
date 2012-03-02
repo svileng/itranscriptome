@@ -11,6 +11,7 @@ using System.IO;
 using ExperimentsManager.Helpers;
 using System.Threading;
 using MathNet.Numerics.Statistics;
+using ExperimentsManager.Models;
 
 namespace ExperimentsManager.Views
 {
@@ -85,7 +86,7 @@ namespace ExperimentsManager.Views
             if (lv.SelectedItems.Count > 0) 
             {
                 string dataset = lv.SelectedItems[0].SubItems[COL_INDEX_DATASET].Text;
-                FormHelper.UpdateExperimentDetails(grpExperimentDetails, Controller.FindByDataset(dataset));
+                FormHelper.UpdateExperimentDetails(grpExperimentDetails, Controller.FindExperimentByDataset(dataset));
                 btnSaveTags.Enabled = false;
             }
         }
@@ -177,7 +178,23 @@ namespace ExperimentsManager.Views
 
         private void btnRunSelectionAlgorithm_Click(object sender, EventArgs e)
         {
+            if (lvExperiments.SelectedItems.Count <= 1) {
+                MessageBox.Show("You must select at least 2 experiments.");
+            } else {
+                
+                int seeds = Convert.ToInt32(nudSeeds.Value);
+                double significance = Convert.ToDouble(nudSignificance.Value);
+                string[] identifiers = txtIdentifiers.Text.Split(',');
+                
+                List<Experiment> experiments = new List<Experiment>();
+                foreach (ListViewItem lvi in lvExperiments.SelectedItems) {
+                    Experiment exp = Controller.FindExperimentByDataset(lvi.SubItems[COL_INDEX_DATASET].Text);
+                    experiments.Add(exp);
+                }
 
+                ExperimentSelectionController exSelCon = new ExperimentSelectionController(seeds, significance, identifiers, experiments.ToArray()); 
+           
+            }
         }
 
         #endregion
