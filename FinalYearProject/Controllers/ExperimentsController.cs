@@ -76,6 +76,9 @@ namespace ExperimentsManager.Controllers
             return cachedExperiments;
         }
 
+        /// <summary>Find an experiment by a given dataset</summary>
+        /// <param name="dataset"></param>
+        /// <returns></returns>
         public Experiment FindExperimentByDataset(string dataset)
         {
             Experiment result = null;
@@ -99,6 +102,9 @@ namespace ExperimentsManager.Controllers
             return result;
         }
 
+        /// <summary>Update an experiment with new tags</summary>
+        /// <param name="dataset">Unique dataset for the experiment to update</param>
+        /// <param name="tags">The tags to set</param>
         public void UpdateExperimentTags(string dataset, string tags)
         {
             Experiment experiment = FindExperimentByDataset(dataset);
