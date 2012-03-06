@@ -7,6 +7,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using ExperimentsManager.Helpers;
 using System.Windows.Forms;
+using ExperimentsManager.Views;
 
 namespace ExperimentsManager.Controllers
 {
@@ -98,6 +99,15 @@ namespace ExperimentsManager.Controllers
         {
             Experiment experiment = FindByDataset(dataset);
             experiment.Delete();
+        }
+
+        public void ShowDetailsForExperiment(string dataset)
+        {
+            Experiment experiment = FindByDataset(dataset);
+            using (ExperimentDetailsForm form = new ExperimentDetailsForm(experiment))
+            {
+                form.ShowDialog();
+            }
         }
 
         #endregion

@@ -90,6 +90,12 @@
     <Compile Include="Models\ExperimentGSM.cs" />
     <Compile Include="SqlFactory.cs" />
     <Compile Include="Models\Experiment.cs" />
+    <Compile Include="Views\ExperimentDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ExperimentDetailsForm.Designer.cs">
+      <DependentUpon>ExperimentDetailsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +104,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Views\ExperimentDetailsForm.resx">
+      <DependentUpon>ExperimentDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

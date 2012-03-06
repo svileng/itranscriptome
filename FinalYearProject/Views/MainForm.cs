@@ -211,6 +211,20 @@ namespace ExperimentsManager.Views
             }
         }
 
+        private void tsmiViewExperiment_Click(object sender, EventArgs e)
+        {
+            if (lvExperiments.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("You must select an experiment first");
+            }
+            else
+            {
+                ListViewItem lvi = lvExperiments.SelectedItems[0];
+                Controller.ShowDetailsForExperiment(lvi.SubItems[COL_INDEX_DATASET].Text);
+            }
+        }
+
+
         #endregion
 
         #region Form Specific Helper Methods

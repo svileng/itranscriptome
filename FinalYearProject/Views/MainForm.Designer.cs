@@ -418,14 +418,15 @@
             this.tsmiViewExperiment,
             this.tsmiDeleteExperiment});
             this.cmsExperiment.Name = "cmsExperiment";
-            this.cmsExperiment.Size = new System.Drawing.Size(147, 48);
+            this.cmsExperiment.Size = new System.Drawing.Size(153, 70);
             this.cmsExperiment.Opening += new System.ComponentModel.CancelEventHandler(this.cmsExperiment_Opening);
             // 
             // tsmiViewExperiment
             // 
             this.tsmiViewExperiment.Name = "tsmiViewExperiment";
-            this.tsmiViewExperiment.Size = new System.Drawing.Size(146, 22);
+            this.tsmiViewExperiment.Size = new System.Drawing.Size(152, 22);
             this.tsmiViewExperiment.Text = "View Details...";
+            this.tsmiViewExperiment.Click += new System.EventHandler(this.tsmiViewExperiment_Click);
             // 
             // tsmiDeleteExperiment
             // 
