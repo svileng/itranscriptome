@@ -43,6 +43,9 @@ namespace ExperimentsManager.Helpers
                     case "txtExperimentDescriptionOutput":
                         control.Text = experiment.DatasetDescription;
                         break;
+                    case "txtTags":
+                        control.Text = experiment.Tags;
+                        break;
                 }
             }
         }
@@ -77,10 +80,33 @@ namespace ExperimentsManager.Helpers
             for (int i = lv.Items.Count - 1; i >= 0; i--)
             {
                 ListViewItem lvi = lv.Items[i];
-                ListViewItem.ListViewSubItem lvsi = lvi.SubItems[column];
-                if (!lvsi.Text.Contains(text))
+
+                if (column != MainForm.COL_INDEX_TAGS)
                 {
-                    lv.Items.Remove(lvi);
+                    ListViewItem.ListViewSubItem lvsi = lvi.SubItems[column];
+                    if (!lvsi.Text.Contains(text))
+                    {
+                        lv.Items.Remove(lvi);
+                    }
+                }
+                else
+                {
+                    string[] tags = text.Split(',');
+                    bool containsTag = false;
+                    ListViewItem.ListViewSubItem lvsi = lvi.SubItems[column];
+
+                    foreach (string tag in tags)
+                    {
+                        if (lvsi.Text.Contains(tag))
+                        {
+                            containsTag = true;
+                        }
+                    }
+
+                    if (!containsTag)
+                    {
+                        lv.Items.Remove(lvi);
+                    }
                 }
             }
 
