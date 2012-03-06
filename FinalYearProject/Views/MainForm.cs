@@ -194,7 +194,8 @@ namespace ExperimentsManager.Views
                     experiments.Add(exp);
                 }
 
-                ExperimentSelectionController exSelCon = new ExperimentSelectionController(seeds, significance, identifiers, experiments.ToArray()); 
+                ExperimentSelectionController exSelCon = new ExperimentSelectionController(seeds, significance, identifiers, experiments.ToArray());
+                exSelCon.RunAlgorithm();
            
             }
         }

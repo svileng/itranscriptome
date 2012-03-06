@@ -150,6 +150,22 @@ namespace ExperimentsManager.Helpers
             }
         }
 
+        /// <summary>Takes a long string of comma-separated double values and returns them as a list of doubles</summary>
+        /// <param name="data">The containing comma-separated double values</param>
+        /// <returns>List of double values</returns>
+        public static double[] MakeArrayFromStringValues(string data)
+        {
+            List<double> result = new List<double>();
+            
+            string[] values = data.Split(';');
+            foreach (string value in values)
+            {
+                result.Add(Convert.ToDouble(value));
+            }
+
+            return result.ToArray();
+        }
+
         #endregion
 
         #region Private Static Methods
