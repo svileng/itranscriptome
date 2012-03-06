@@ -54,7 +54,11 @@ namespace ExperimentsManager.Models
         #region Public Instance Methods
 
         /// <summary>Saves the experiment object as a new experiment in the database</summary>
-        /// <remarks>Method will not overwrite or update existing data</remarks>
+        /// <remarks>
+        /// Method will not overwrite or update existing data.
+        /// Also: the method can take considerable amount of time 
+        /// depending on the size of the dataset table of the experiment.
+        /// </remarks>
         public void Save()
         {
             SQLiteConnection dbConnection = DatabaseManager.Instance.Connection;
@@ -108,12 +112,37 @@ namespace ExperimentsManager.Models
             }
         }
 
+        public void Delete()
+        {
+            SQLiteConnection dbConnection = DatabaseManager.Instance.Connection;
+            dbConnection.Open();
+            try
+            {
+                SQLiteCommand command = new SQLiteCommand(dbConnection);
+                command.CommandText = SqlFactory.CreateDeleteExperimentQueryFromObject(this);
+
+                try
+                {
+                    command.ExecuteNonQuery();
+                    ExperimentsController.ExperimentsCacheExpired = true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+            finally
+            {
+                dbConnection.Close();
+            }            
+        }
+
         #endregion
 
         #region Public Static Methods
 
         /// <summary>Get all experiments from database</summary>
-        /// <returns>Array of Experiments</returns>
+        /// <returns>Array of all Experiments</returns>
         public static Experiment[] All()
         {
             List<Experiment> result = new List<Experiment>();
@@ -161,6 +190,10 @@ namespace ExperimentsManager.Models
             return result.ToArray();
         }
 
+        /// <summary>Find an experiment in the database by given condition</summary>
+        /// <remarks>Conditions currently supported (see the SQL query) are: dataset, database_name and database_used</remarks>
+        /// <param name="condition">Condition to look for</param>
+        /// <returns>Experiment matching the condition or null if one was not found</returns>
         public static Experiment FindBy(string condition)
         {
             Experiment result = null;
@@ -202,6 +235,5 @@ namespace ExperimentsManager.Models
         }
 
         #endregion
-
     }
 }

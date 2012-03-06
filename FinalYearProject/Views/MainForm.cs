@@ -169,12 +169,45 @@ namespace ExperimentsManager.Views
             }
             else if (e.Cancelled)
             {
-                SetStatusBarInfo("Error while loading the experiment.", ProgressBarStatus.Hidden);
+                SetStatusBarInfo("Error while loading the experiment", ProgressBarStatus.Hidden);
             }
             else
             {
                 SetStatusBarInfo("Experiment loaded successfully!", ProgressBarStatus.Hidden);
                 FormHelper.UpdateExperimentsListView(lvExperiments, Controller.GetAllExperiments());
+            }
+        }
+
+        private void cmsExperiment_Opening(object sender, CancelEventArgs e)
+        {
+            if (lvExperiments.SelectedItems.Count == 0)
+            {
+                tsmiDeleteExperiment.Enabled = false;
+                tsmiViewExperiment.Enabled = false;
+            }
+            else
+            {
+                tsmiDeleteExperiment.Enabled = true;
+                tsmiViewExperiment.Enabled = true;
+            }
+        }
+
+        private void tsmiDeleteExperiment_Click(object sender, EventArgs e)
+        {
+            if (lvExperiments.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("You must select an experiment first");
+            }
+            else
+            {
+                DialogResult result = MessageBox.Show("Are you sure you want to delete the selected experiment from the database? All data will be lost.\nChoose Yes to delete the experiment and No to cancel.", "Confirm delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    ListViewItem lvi = lvExperiments.SelectedItems[0];
+                    Controller.DeleteExperiment(lvi.SubItems[COL_INDEX_DATASET].Text);
+                    FormHelper.UpdateExperimentsListView(lvExperiments, Controller.GetAllExperiments());
+                    SetStatusBarInfo("Experiment deleted successfully!", ProgressBarStatus.Hidden);
+                }
             }
         }
 

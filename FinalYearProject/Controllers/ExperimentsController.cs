@@ -74,16 +74,30 @@ namespace ExperimentsManager.Controllers
             return cachedExperiments;
         }
 
+        /// <summary>Get the experiment corresponding to the given unique dataset id</summary>
+        /// <param name="dataset">Dataset to look for</param>
+        /// <returns>Experiment with that dataset</returns>
         public Experiment FindByDataset(string dataset)
         {
             return Experiment.FindBy(dataset);
         }
 
+        /// <summary>Updates an experiment with new tags</summary>
+        /// <param name="dataset">Dataset corresponding to the experiment which we want to update</param>
+        /// <param name="tags">Tags to set to the experiment</param>
         public void UpdateExperimentTags(string dataset, string tags)
         {
             Experiment experiment = FindByDataset(dataset);
             experiment.Tags = tags;
             experiment.Update();
+        }
+
+        /// <summary>Will delete the experiment and its associated data (gsms, datasetrows) from the database</summary>
+        /// <param name="dataset">Experiment's unique dataset id</param>
+        public void DeleteExperiment(string dataset)
+        {
+            Experiment experiment = FindByDataset(dataset);
+            experiment.Delete();
         }
 
         #endregion

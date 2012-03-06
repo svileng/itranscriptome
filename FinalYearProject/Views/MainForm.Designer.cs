@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusStripLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadExperimentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,8 +60,10 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.scMain = new System.Windows.Forms.SplitContainer();
             this.scMainSubContainer = new System.Windows.Forms.SplitContainer();
-            this.statusStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.experimentLoader = new System.ComponentModel.BackgroundWorker();
+            this.cmsExperiment = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiViewExperiment = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiDeleteExperiment = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.leftTabControl.SuspendLayout();
@@ -73,6 +77,7 @@
             this.scMainSubContainer.Panel1.SuspendLayout();
             this.scMainSubContainer.Panel2.SuspendLayout();
             this.scMainSubContainer.SuspendLayout();
+            this.cmsExperiment.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -90,6 +95,13 @@
             // 
             this.statusStripLabel.Name = "statusStripLabel";
             this.statusStripLabel.Size = new System.Drawing.Size(0, 17);
+            // 
+            // statusStripProgressBar
+            // 
+            this.statusStripProgressBar.Name = "statusStripProgressBar";
+            this.statusStripProgressBar.Size = new System.Drawing.Size(100, 16);
+            this.statusStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.statusStripProgressBar.Visible = false;
             // 
             // menuStrip
             // 
@@ -259,6 +271,7 @@
             // 
             // txtTags
             // 
+            this.txtTags.AccessibleName = "txtTags";
             this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTags.Location = new System.Drawing.Point(9, 281);
@@ -318,6 +331,7 @@
             this.columnHeader2,
             this.columnHeader4,
             this.columnHeader3});
+            this.lvExperiments.ContextMenuStrip = this.cmsExperiment;
             this.lvExperiments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvExperiments.FullRowSelect = true;
             this.lvExperiments.GridLines = true;
@@ -393,17 +407,32 @@
             this.scMainSubContainer.SplitterDistance = 506;
             this.scMainSubContainer.TabIndex = 0;
             // 
-            // statusStripProgressBar
-            // 
-            this.statusStripProgressBar.Name = "statusStripProgressBar";
-            this.statusStripProgressBar.Size = new System.Drawing.Size(100, 16);
-            this.statusStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.statusStripProgressBar.Visible = false;
-            // 
             // experimentLoader
             // 
             this.experimentLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.experimentLoader_DoWork);
             this.experimentLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.experimentLoader_RunWorkerCompleted);
+            // 
+            // cmsExperiment
+            // 
+            this.cmsExperiment.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiViewExperiment,
+            this.tsmiDeleteExperiment});
+            this.cmsExperiment.Name = "cmsExperiment";
+            this.cmsExperiment.Size = new System.Drawing.Size(147, 48);
+            this.cmsExperiment.Opening += new System.ComponentModel.CancelEventHandler(this.cmsExperiment_Opening);
+            // 
+            // tsmiViewExperiment
+            // 
+            this.tsmiViewExperiment.Name = "tsmiViewExperiment";
+            this.tsmiViewExperiment.Size = new System.Drawing.Size(146, 22);
+            this.tsmiViewExperiment.Text = "View Details...";
+            // 
+            // tsmiDeleteExperiment
+            // 
+            this.tsmiDeleteExperiment.Name = "tsmiDeleteExperiment";
+            this.tsmiDeleteExperiment.Size = new System.Drawing.Size(152, 22);
+            this.tsmiDeleteExperiment.Text = "Delete";
+            this.tsmiDeleteExperiment.Click += new System.EventHandler(this.tsmiDeleteExperiment_Click);
             // 
             // MainForm
             // 
@@ -436,6 +465,7 @@
             this.scMainSubContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scMainSubContainer)).EndInit();
             this.scMainSubContainer.ResumeLayout(false);
+            this.cmsExperiment.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -475,6 +505,9 @@
         private System.Windows.Forms.Button btnSaveTags;
         private System.Windows.Forms.ToolStripProgressBar statusStripProgressBar;
         private System.ComponentModel.BackgroundWorker experimentLoader;
+        private System.Windows.Forms.ContextMenuStrip cmsExperiment;
+        private System.Windows.Forms.ToolStripMenuItem tsmiViewExperiment;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDeleteExperiment;
     }
 }
 

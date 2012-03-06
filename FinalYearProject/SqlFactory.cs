@@ -9,8 +9,6 @@ namespace ExperimentsManager.Helpers
     /// <summary>Factory for SQL queries, mainly used by models</summary>
     public static class SqlFactory
     {
-        /// <summary>Creates the SQL query to insert a new experiment in database</summary>
-        /// <returns>The SQL query</returns>
         public static string CreateInsertExperimentQueryFromObject(Experiment e)
         {
             if (e == null) {
@@ -163,6 +161,29 @@ namespace ExperimentsManager.Helpers
             result.Append("SELECT * from gsms_data WHERE experiment_id = '");
             result.Append(experiment_id);
             result.Append("'");
+
+            return result.ToString();
+        }
+
+        internal static string CreateDeleteExperimentQueryFromObject(Experiment experiment)
+        {
+            if (experiment == null) {
+                throw new ArgumentException();
+            }
+
+            StringBuilder result = new StringBuilder();
+
+            result.Append("DELETE FROM experiments WHERE dataset = '");
+            result.Append(experiment.Dataset);
+            result.Append("';");
+
+            result.Append("DELETE FROM gsms_data WHERE experiment_id = '");
+            result.Append(experiment.Dataset);
+            result.Append("';");
+
+            result.Append("DELETE FROM datasets WHERE experiment_id = '");
+            result.Append(experiment.Dataset);
+            result.Append("';");
 
             return result.ToString();
         }
