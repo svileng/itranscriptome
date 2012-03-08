@@ -45,6 +45,14 @@
             this.lblFilterBy = new System.Windows.Forms.Label();
             this.lblKeywords = new System.Windows.Forms.Label();
             this.txtKeywords = new System.Windows.Forms.TextBox();
+            this.tpSelection = new System.Windows.Forms.TabPage();
+            this.lblIdentifiers = new System.Windows.Forms.Label();
+            this.txtIdentifiers = new System.Windows.Forms.TextBox();
+            this.btnRunSelectionAlgorithm = new System.Windows.Forms.Button();
+            this.nudSignificance = new System.Windows.Forms.NumericUpDown();
+            this.lblSignificance = new System.Windows.Forms.Label();
+            this.nudSeeds = new System.Windows.Forms.NumericUpDown();
+            this.lblSeeds = new System.Windows.Forms.Label();
             this.grpExperimentDetails = new System.Windows.Forms.GroupBox();
             this.btnSaveTags = new System.Windows.Forms.Button();
             this.lblTags = new System.Windows.Forms.Label();
@@ -60,14 +68,19 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.scMain = new System.Windows.Forms.SplitContainer();
             this.scMainSubContainer = new System.Windows.Forms.SplitContainer();
+            this.statusStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.experimentLoader = new System.ComponentModel.BackgroundWorker();
             this.cmsExperiment = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.expSelectionRunner = new System.ComponentModel.BackgroundWorker();
             this.tsmiViewExperiment = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDeleteExperiment = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.leftTabControl.SuspendLayout();
             this.tpSearch.SuspendLayout();
+            this.tpSelection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSignificance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSeeds)).BeginInit();
             this.grpExperimentDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
             this.scMain.Panel1.SuspendLayout();
@@ -161,12 +174,13 @@
             // leftTabControl
             // 
             this.leftTabControl.Controls.Add(this.tpSearch);
+            this.leftTabControl.Controls.Add(this.tpSelection);
             this.leftTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.leftTabControl.Location = new System.Drawing.Point(0, 0);
-            this.leftTabControl.MinimumSize = new System.Drawing.Size(150, 0);
+            this.leftTabControl.MinimumSize = new System.Drawing.Size(175, 0);
             this.leftTabControl.Name = "leftTabControl";
             this.leftTabControl.SelectedIndex = 0;
-            this.leftTabControl.Size = new System.Drawing.Size(150, 502);
+            this.leftTabControl.Size = new System.Drawing.Size(175, 502);
             this.leftTabControl.TabIndex = 0;
             // 
             // tpSearch
@@ -179,7 +193,7 @@
             this.tpSearch.Location = new System.Drawing.Point(4, 22);
             this.tpSearch.Name = "tpSearch";
             this.tpSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSearch.Size = new System.Drawing.Size(142, 476);
+            this.tpSearch.Size = new System.Drawing.Size(167, 476);
             this.tpSearch.TabIndex = 0;
             this.tpSearch.Text = "Search";
             this.tpSearch.UseVisualStyleBackColor = true;
@@ -197,7 +211,7 @@
             "Tags"});
             this.cbFilterBy.Location = new System.Drawing.Point(6, 25);
             this.cbFilterBy.Name = "cbFilterBy";
-            this.cbFilterBy.Size = new System.Drawing.Size(128, 21);
+            this.cbFilterBy.Size = new System.Drawing.Size(153, 21);
             this.cbFilterBy.TabIndex = 3;
             // 
             // lblFilterBy
@@ -226,9 +240,101 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtKeywords.Location = new System.Drawing.Point(6, 74);
             this.txtKeywords.Name = "txtKeywords";
-            this.txtKeywords.Size = new System.Drawing.Size(128, 20);
+            this.txtKeywords.Size = new System.Drawing.Size(153, 20);
             this.txtKeywords.TabIndex = 0;
             this.txtKeywords.TextChanged += new System.EventHandler(this.txtKeywords_TextChanged);
+            // 
+            // tpSelection
+            // 
+            this.tpSelection.Controls.Add(this.lblIdentifiers);
+            this.tpSelection.Controls.Add(this.txtIdentifiers);
+            this.tpSelection.Controls.Add(this.btnRunSelectionAlgorithm);
+            this.tpSelection.Controls.Add(this.nudSignificance);
+            this.tpSelection.Controls.Add(this.lblSignificance);
+            this.tpSelection.Controls.Add(this.nudSeeds);
+            this.tpSelection.Controls.Add(this.lblSeeds);
+            this.tpSelection.Location = new System.Drawing.Point(4, 22);
+            this.tpSelection.Name = "tpSelection";
+            this.tpSelection.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSelection.Size = new System.Drawing.Size(167, 476);
+            this.tpSelection.TabIndex = 1;
+            this.tpSelection.Text = "Experiments Selection";
+            this.tpSelection.UseVisualStyleBackColor = true;
+            // 
+            // lblIdentifiers
+            // 
+            this.lblIdentifiers.AutoSize = true;
+            this.lblIdentifiers.Location = new System.Drawing.Point(4, 109);
+            this.lblIdentifiers.Name = "lblIdentifiers";
+            this.lblIdentifiers.Size = new System.Drawing.Size(145, 13);
+            this.lblIdentifiers.TabIndex = 6;
+            this.lblIdentifiers.Text = "Identifiers (comma-separated)";
+            // 
+            // txtIdentifiers
+            // 
+            this.txtIdentifiers.Location = new System.Drawing.Point(7, 125);
+            this.txtIdentifiers.Name = "txtIdentifiers";
+            this.txtIdentifiers.Size = new System.Drawing.Size(154, 20);
+            this.txtIdentifiers.TabIndex = 5;
+            // 
+            // btnRunSelectionAlgorithm
+            // 
+            this.btnRunSelectionAlgorithm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRunSelectionAlgorithm.Location = new System.Drawing.Point(7, 162);
+            this.btnRunSelectionAlgorithm.Name = "btnRunSelectionAlgorithm";
+            this.btnRunSelectionAlgorithm.Size = new System.Drawing.Size(154, 27);
+            this.btnRunSelectionAlgorithm.TabIndex = 4;
+            this.btnRunSelectionAlgorithm.Text = "Run Selection Algorithm";
+            this.btnRunSelectionAlgorithm.UseVisualStyleBackColor = true;
+            this.btnRunSelectionAlgorithm.Click += new System.EventHandler(this.btnRunSelectionAlgorithm_Click);
+            // 
+            // nudSignificance
+            // 
+            this.nudSignificance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudSignificance.DecimalPlaces = 5;
+            this.nudSignificance.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
+            this.nudSignificance.Location = new System.Drawing.Point(7, 73);
+            this.nudSignificance.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudSignificance.Name = "nudSignificance";
+            this.nudSignificance.Size = new System.Drawing.Size(154, 20);
+            this.nudSignificance.TabIndex = 3;
+            // 
+            // lblSignificance
+            // 
+            this.lblSignificance.AutoSize = true;
+            this.lblSignificance.Location = new System.Drawing.Point(4, 57);
+            this.lblSignificance.Name = "lblSignificance";
+            this.lblSignificance.Size = new System.Drawing.Size(65, 13);
+            this.lblSignificance.TabIndex = 2;
+            this.lblSignificance.Text = "Significance";
+            // 
+            // nudSeeds
+            // 
+            this.nudSeeds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudSeeds.Location = new System.Drawing.Point(7, 25);
+            this.nudSeeds.Name = "nudSeeds";
+            this.nudSeeds.Size = new System.Drawing.Size(154, 20);
+            this.nudSeeds.TabIndex = 1;
+            // 
+            // lblSeeds
+            // 
+            this.lblSeeds.AutoSize = true;
+            this.lblSeeds.Location = new System.Drawing.Point(4, 9);
+            this.lblSeeds.Name = "lblSeeds";
+            this.lblSeeds.Size = new System.Drawing.Size(37, 13);
+            this.lblSeeds.TabIndex = 0;
+            this.lblSeeds.Text = "Seeds";
             // 
             // grpExperimentDetails
             // 
@@ -244,7 +350,7 @@
             this.grpExperimentDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpExperimentDetails.Location = new System.Drawing.Point(0, 0);
             this.grpExperimentDetails.Name = "grpExperimentDetails";
-            this.grpExperimentDetails.Size = new System.Drawing.Size(196, 502);
+            this.grpExperimentDetails.Size = new System.Drawing.Size(189, 502);
             this.grpExperimentDetails.TabIndex = 1;
             this.grpExperimentDetails.TabStop = false;
             this.grpExperimentDetails.Text = "Details";
@@ -276,7 +382,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTags.Location = new System.Drawing.Point(9, 281);
             this.txtTags.Name = "txtTags";
-            this.txtTags.Size = new System.Drawing.Size(177, 20);
+            this.txtTags.Size = new System.Drawing.Size(170, 20);
             this.txtTags.TabIndex = 5;
             this.txtTags.Enter += new System.EventHandler(this.txtTags_Enter);
             // 
@@ -288,7 +394,7 @@
             this.txtExperimentNameOutput.Location = new System.Drawing.Point(10, 42);
             this.txtExperimentNameOutput.Name = "txtExperimentNameOutput";
             this.txtExperimentNameOutput.ReadOnly = true;
-            this.txtExperimentNameOutput.Size = new System.Drawing.Size(177, 20);
+            this.txtExperimentNameOutput.Size = new System.Drawing.Size(170, 20);
             this.txtExperimentNameOutput.TabIndex = 4;
             // 
             // txtExperimentDescriptionOutput
@@ -301,7 +407,7 @@
             this.txtExperimentDescriptionOutput.Name = "txtExperimentDescriptionOutput";
             this.txtExperimentDescriptionOutput.ReadOnly = true;
             this.txtExperimentDescriptionOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtExperimentDescriptionOutput.Size = new System.Drawing.Size(177, 146);
+            this.txtExperimentDescriptionOutput.Size = new System.Drawing.Size(170, 146);
             this.txtExperimentDescriptionOutput.TabIndex = 3;
             // 
             // lblExperimentDescription
@@ -337,9 +443,8 @@
             this.lvExperiments.GridLines = true;
             this.lvExperiments.HideSelection = false;
             this.lvExperiments.Location = new System.Drawing.Point(0, 0);
-            this.lvExperiments.MultiSelect = false;
             this.lvExperiments.Name = "lvExperiments";
-            this.lvExperiments.Size = new System.Drawing.Size(506, 502);
+            this.lvExperiments.Size = new System.Drawing.Size(488, 502);
             this.lvExperiments.TabIndex = 2;
             this.lvExperiments.UseCompatibleStateImageBehavior = false;
             this.lvExperiments.View = System.Windows.Forms.View.Details;
@@ -378,14 +483,14 @@
             // scMain.Panel1
             // 
             this.scMain.Panel1.Controls.Add(this.leftTabControl);
-            this.scMain.Panel1MinSize = 150;
+            this.scMain.Panel1MinSize = 175;
             // 
             // scMain.Panel2
             // 
             this.scMain.Panel2.Controls.Add(this.scMainSubContainer);
             this.scMain.Panel2MinSize = 400;
             this.scMain.Size = new System.Drawing.Size(860, 502);
-            this.scMain.SplitterDistance = 150;
+            this.scMain.SplitterDistance = 175;
             this.scMain.TabIndex = 3;
             // 
             // scMainSubContainer
@@ -403,9 +508,16 @@
             // 
             this.scMainSubContainer.Panel2.Controls.Add(this.grpExperimentDetails);
             this.scMainSubContainer.Panel2MinSize = 150;
-            this.scMainSubContainer.Size = new System.Drawing.Size(706, 502);
-            this.scMainSubContainer.SplitterDistance = 506;
+            this.scMainSubContainer.Size = new System.Drawing.Size(681, 502);
+            this.scMainSubContainer.SplitterDistance = 488;
             this.scMainSubContainer.TabIndex = 0;
+            // 
+            // statusStripProgressBar
+            // 
+            this.statusStripProgressBar.Name = "statusStripProgressBar";
+            this.statusStripProgressBar.Size = new System.Drawing.Size(100, 16);
+            this.statusStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.statusStripProgressBar.Visible = false;
             // 
             // experimentLoader
             // 
@@ -413,10 +525,14 @@
             this.experimentLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.experimentLoader_RunWorkerCompleted);
             // 
             // cmsExperiment
+            // expSelectionRunner
             // 
             this.cmsExperiment.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiViewExperiment,
             this.tsmiDeleteExperiment});
+            this.expSelectionRunner.DoWork += new System.ComponentModel.DoWorkEventHandler(this.expSelectionRunner_DoWork);
+            this.expSelectionRunner.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.expSelectionRunner_RunWorkerCompleted);
+            // 
             this.cmsExperiment.Name = "cmsExperiment";
             this.cmsExperiment.Size = new System.Drawing.Size(153, 70);
             this.cmsExperiment.Opening += new System.ComponentModel.CancelEventHandler(this.cmsExperiment_Opening);
@@ -456,6 +572,10 @@
             this.leftTabControl.ResumeLayout(false);
             this.tpSearch.ResumeLayout(false);
             this.tpSearch.PerformLayout();
+            this.tpSelection.ResumeLayout(false);
+            this.tpSelection.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSignificance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSeeds)).EndInit();
             this.grpExperimentDetails.ResumeLayout(false);
             this.grpExperimentDetails.PerformLayout();
             this.scMain.Panel1.ResumeLayout(false);
@@ -509,6 +629,15 @@
         private System.Windows.Forms.ContextMenuStrip cmsExperiment;
         private System.Windows.Forms.ToolStripMenuItem tsmiViewExperiment;
         private System.Windows.Forms.ToolStripMenuItem tsmiDeleteExperiment;
+        private System.Windows.Forms.TabPage tpSelection;
+        private System.Windows.Forms.Button btnRunSelectionAlgorithm;
+        private System.Windows.Forms.NumericUpDown nudSignificance;
+        private System.Windows.Forms.Label lblSignificance;
+        private System.Windows.Forms.NumericUpDown nudSeeds;
+        private System.Windows.Forms.Label lblSeeds;
+        private System.Windows.Forms.Label lblIdentifiers;
+        private System.Windows.Forms.TextBox txtIdentifiers;
+        private System.ComponentModel.BackgroundWorker expSelectionRunner;
     }
 }
 

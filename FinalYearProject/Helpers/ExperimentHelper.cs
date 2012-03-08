@@ -134,8 +134,6 @@ namespace ExperimentsManager.Helpers
                     {
                         try
                         {
-                            datasetValue.Append(experiment.GSMs[i - 2].GSMId);
-                            datasetValue.Append("=");
                             datasetValue.Append(data[i]);
                             datasetValue.Append(";");
                         }
@@ -150,6 +148,25 @@ namespace ExperimentsManager.Helpers
                     experiment.DatasetTable.Add(datasetRow);
                 }
             }
+        }
+
+        /// <summary>Takes a long string of comma-separated double values and returns them as a list of doubles</summary>
+        /// <param name="data">The containing comma-separated double values</param>
+        /// <returns>List of double values</returns>
+        public static double[] MakeArrayFromStringValues(string data)
+        {
+            List<double> result = new List<double>();
+            
+            string[] values = data.Split(';');
+            string temp;
+            foreach (string value in values)
+            {
+                temp = value; // we can't modify "value" because it's in the foreach loop, so we use a temporary string
+                if (value == "null") temp = "0.0";
+                result.Add(Convert.ToDouble(temp));
+            }
+
+            return result.ToArray();
         }
 
         #endregion

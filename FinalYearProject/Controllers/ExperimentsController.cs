@@ -64,12 +64,14 @@ namespace ExperimentsManager.Controllers
         }
 
         /// <summary>Returns all experiments stored database</summary>
+        /// <remarks>Will update experiments cache if needed</remarks>
         /// <returns>Array of Experiments</returns>
         public Experiment[] GetAllExperiments()
         {
             if (ExperimentsCacheExpired)
             {
                 cachedExperiments = Experiment.All();
+                ExperimentsCacheExpired = false;
             }
 
             return cachedExperiments;
@@ -78,17 +80,35 @@ namespace ExperimentsManager.Controllers
         /// <summary>Get the experiment corresponding to the given unique dataset id</summary>
         /// <param name="dataset">Dataset to look for</param>
         /// <returns>Experiment with that dataset</returns>
-        public Experiment FindByDataset(string dataset)
+        public Experiment FindExperimentByDataset(string dataset)
         {
-            return Experiment.FindBy(dataset);
+            Experiment result = null;
+
+            if (ExperimentsCacheExpired)
+            {
+                result = Experiment.FindBy(dataset);
+            }
+            else
+            {
+                foreach (Experiment e in cachedExperiments)
+                {
+                    if (e.Dataset == dataset)
+                    {
+                        result = e;
+                        break;
+                    }
+                }
+            }
+
+            return result;
         }
 
-        /// <summary>Updates an experiment with new tags</summary>
-        /// <param name="dataset">Dataset corresponding to the experiment which we want to update</param>
-        /// <param name="tags">Tags to set to the experiment</param>
+        /// <summary>Update an experiment with new tags</summary>
+        /// <param name="dataset">Unique dataset for the experiment to update</param>
+        /// <param name="tags">The tags to set</param>
         public void UpdateExperimentTags(string dataset, string tags)
         {
-            Experiment experiment = FindByDataset(dataset);
+            Experiment experiment = FindExperimentByDataset(dataset);
             experiment.Tags = tags;
             experiment.Update();
         }

@@ -10,6 +10,8 @@ using ExperimentsManager.Controllers;
 using System.IO;
 using ExperimentsManager.Helpers;
 using System.Threading;
+using MathNet.Numerics.Statistics;
+using ExperimentsManager.Models;
 
 namespace ExperimentsManager.Views
 {
@@ -88,7 +90,7 @@ namespace ExperimentsManager.Views
             if (lv.SelectedItems.Count > 0) 
             {
                 string dataset = lv.SelectedItems[0].SubItems[COL_INDEX_DATASET].Text;
-                FormHelper.UpdateExperimentDetails(grpExperimentDetails, Controller.FindByDataset(dataset));
+                FormHelper.UpdateExperimentDetails(grpExperimentDetails, Controller.FindExperimentByDataset(dataset));
                 btnSaveTags.Enabled = false;
             }
         }
@@ -128,8 +130,10 @@ namespace ExperimentsManager.Views
             try
             {
                 ListViewItem lvi = lvExperiments.SelectedItems[0];
-                lvi.SubItems[COL_INDEX_TAGS].Text = txtTags.Text;
+                
                 Controller.UpdateExperimentTags(lvi.SubItems[COL_INDEX_DATASET].Text, txtTags.Text);
+                FormHelper.UpdateExperimentsListView(lvExperiments, Controller.GetAllExperiments());
+
                 btnSaveTags.Enabled = false;
             }
             catch (ArgumentOutOfRangeException)
@@ -148,8 +152,7 @@ namespace ExperimentsManager.Views
             try
             {
                 string fileName = (string)e.Argument;
-                if (string.IsNullOrEmpty(fileName))
-                {
+                if (string.IsNullOrEmpty(fileName)) {
                     throw new ArgumentException("Error: Invalid experiment file name");
                 }
                 Controller.LoadExperimentFromCsvFile(fileName);
@@ -175,6 +178,61 @@ namespace ExperimentsManager.Views
             {
                 SetStatusBarInfo("Experiment loaded successfully!", ProgressBarStatus.Hidden);
                 FormHelper.UpdateExperimentsListView(lvExperiments, Controller.GetAllExperiments());
+            }
+        }
+
+        private void btnRunSelectionAlgorithm_Click(object sender, EventArgs e)
+        {
+            if (lvExperiments.SelectedItems.Count <= 1) {
+                MessageBox.Show("You must select at least 2 experiments.");
+            } else {
+                
+                int seeds = Convert.ToInt32(nudSeeds.Value);
+                double significance = Convert.ToDouble(nudSignificance.Value);
+                string[] identifiers = txtIdentifiers.Text.Split(',');
+                
+                List<Experiment> experiments = new List<Experiment>();
+                foreach (ListViewItem lvi in lvExperiments.SelectedItems) {
+                    Experiment exp = Controller.FindExperimentByDataset(lvi.SubItems[COL_INDEX_DATASET].Text);
+                    experiments.Add(exp);
+                }
+
+                ExperimentSelectionController esc = new ExperimentSelectionController(seeds, significance, identifiers, experiments.ToArray());
+                SetStatusBarInfo("Running the experiment selection algorithm...", ProgressBarStatus.Visible);
+                expSelectionRunner.RunWorkerAsync(esc);
+            }
+        }
+
+        private void expSelectionRunner_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                ExperimentSelectionController esc = (ExperimentSelectionController)e.Argument;
+                if (esc == null) {
+                    throw new ArgumentNullException("Error: Missing argument for experiment selection algorithm");
+                }
+                esc.RunAlgorithm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                e.Cancel = true;
+            }
+        }
+
+        private void expSelectionRunner_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                throw new Exception("Error: Problem while running experiment selection algorithm");
+            }
+            else if (e.Cancelled)
+            {
+                SetStatusBarInfo("Error: Problem while running experiment selection algorithm", ProgressBarStatus.Hidden);
+            }
+            else
+            {
+                SetStatusBarInfo("Experiment selection completed successfully!", ProgressBarStatus.Hidden);
             }
         }
 
