@@ -117,13 +117,13 @@ namespace ExperimentsManager.Controllers
         /// <param name="dataset">Experiment's unique dataset id</param>
         public void DeleteExperiment(string dataset)
         {
-            Experiment experiment = FindByDataset(dataset);
+            Experiment experiment = FindExperimentByDataset(dataset);
             experiment.Delete();
         }
 
         public void ShowDetailsForExperiment(string dataset)
         {
-            Experiment experiment = FindByDataset(dataset);
+            Experiment experiment = FindExperimentByDataset(dataset);
             using (ExperimentDetailsForm form = new ExperimentDetailsForm(experiment))
             {
                 form.ShowDialog();

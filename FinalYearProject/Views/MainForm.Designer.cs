@@ -512,13 +512,6 @@
             this.scMainSubContainer.SplitterDistance = 488;
             this.scMainSubContainer.TabIndex = 0;
             // 
-            // statusStripProgressBar
-            // 
-            this.statusStripProgressBar.Name = "statusStripProgressBar";
-            this.statusStripProgressBar.Size = new System.Drawing.Size(100, 16);
-            this.statusStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.statusStripProgressBar.Visible = false;
-            // 
             // experimentLoader
             // 
             this.experimentLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.experimentLoader_DoWork);
