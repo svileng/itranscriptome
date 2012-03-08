@@ -79,7 +79,8 @@ namespace ExperimentsManager.Models
                     insertDatasetsCommand.ExecuteNonQuery();
                     ExperimentsController.ExperimentsCacheExpired = true;
                 } catch (Exception e) {
-                    MessageBox.Show(e.Message);
+                    // re-throwing exception on purpose (it is catched in the Form later)
+                    throw e;
                 }
             }
             finally

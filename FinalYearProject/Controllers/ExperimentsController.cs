@@ -57,7 +57,7 @@ namespace ExperimentsManager.Controllers
                     reader.Close();
                 }
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 MessageBox.Show(e.Message);
             }
