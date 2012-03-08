@@ -42,28 +42,17 @@ namespace ExperimentsManager.Controllers
 
                 e.LoadDatasetTable();
 
-                // select only the rows which correspond to the supplied identifiers; we do not need the rest
-
-                List<DatasetTableRow> rowsByIdentifier = new List<DatasetTableRow>();
-                foreach (DatasetTableRow dtr in e.DatasetTable) 
-                {
-                    if (Identifiers.Contains(dtr.Identifier))
-                    {
-                        rowsByIdentifier.Add(dtr);
-                    }
-                }
-
                 // compute pairwise correlation
 
                 CorrelationTable ct = new CorrelationTable();
 
-                for (int i = 0; i < rowsByIdentifier.Count; i++)
+                for (int i = 0; i < e.DatasetTable.Count; i++)
                 {
-                    DatasetTableRow rowA = rowsByIdentifier[i];
+                    DatasetTableRow rowA = e.DatasetTable[i];
 
-                    for (int k = i + 1; k < rowsByIdentifier.Count; k++)
+                    for (int k = i + 1; k < e.DatasetTable.Count; k++)
                     {
-                        DatasetTableRow rowB = rowsByIdentifier[k];
+                        DatasetTableRow rowB = e.DatasetTable[k];
 
                         string id_a = rowA.Identifier;
                         string id_b = rowB.Identifier;
@@ -73,10 +62,23 @@ namespace ExperimentsManager.Controllers
                             double[] valuesA = ExperimentHelper.MakeArrayFromStringValues(rowA.Value);
                             double[] valuesB = ExperimentHelper.MakeArrayFromStringValues(rowB.Value);
                             double correlation = Correlation.Pearson(valuesA, valuesB);
-                            
+
                             CorrelationResult cr = new CorrelationResult(id_a, id_b, correlation);
                             ct.Correlations.Add(cr);
                         }
+                    }
+                }
+
+                // select the rows which correspond to the supplied identifiers
+
+                List<CorrelationResult> selectedIdentifiers = new List<CorrelationResult>();
+                for (int i = ct.Correlations.Count - 1; i >= 0; i--)
+                {
+                    CorrelationResult cr = ct.Correlations[i];
+                    if (Identifiers.Contains(cr.IdentifierA) && Identifiers.Contains(cr.IdentifierB))
+                    {
+                        selectedIdentifiers.Add(cr);
+                        ct.Correlations.RemoveAt(i);
                     }
                 }
             }
@@ -86,13 +88,13 @@ namespace ExperimentsManager.Controllers
     class CorrelationResult
     {
         public string IdentifierA { get; private set; }
-        public string identifierB { get; private set; }
+        public string IdentifierB { get; private set; }
         public double Value { get; private set; }
 
         public CorrelationResult(string id_a, string id_b, double value)
         {
             IdentifierA = id_a;
-            identifierB = id_b;
+            IdentifierB = id_b;
             Value = value;
         }
     }
@@ -113,7 +115,7 @@ namespace ExperimentsManager.Controllers
             for (int i = 0; i < Correlations.Count() && !result; i++)
             {
                 CorrelationResult cr = Correlations[i];
-                if ((cr.IdentifierA == id_a && cr.identifierB == id_b) || (cr.IdentifierA == id_b && cr.identifierB == id_a))
+                if ((cr.IdentifierA == id_a && cr.IdentifierB == id_b) || (cr.IdentifierA == id_b && cr.IdentifierB == id_a))
                 {
                     result = true;
                 }

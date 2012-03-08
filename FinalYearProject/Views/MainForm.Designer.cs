@@ -68,6 +68,7 @@
             this.scMain = new System.Windows.Forms.SplitContainer();
             this.scMainSubContainer = new System.Windows.Forms.SplitContainer();
             this.experimentLoader = new System.ComponentModel.BackgroundWorker();
+            this.expSelectionRunner = new System.ComponentModel.BackgroundWorker();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.leftTabControl.SuspendLayout();
@@ -508,6 +509,11 @@
             this.experimentLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.experimentLoader_DoWork);
             this.experimentLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.experimentLoader_RunWorkerCompleted);
             // 
+            // expSelectionRunner
+            // 
+            this.expSelectionRunner.DoWork += new System.ComponentModel.DoWorkEventHandler(this.expSelectionRunner_DoWork);
+            this.expSelectionRunner.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.expSelectionRunner_RunWorkerCompleted);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -590,6 +596,7 @@
         private System.Windows.Forms.Label lblSeeds;
         private System.Windows.Forms.Label lblIdentifiers;
         private System.Windows.Forms.TextBox txtIdentifiers;
+        private System.ComponentModel.BackgroundWorker expSelectionRunner;
     }
 }
 

@@ -148,8 +148,7 @@ namespace ExperimentsManager.Views
             try
             {
                 string fileName = (string)e.Argument;
-                if (string.IsNullOrEmpty(fileName))
-                {
+                if (string.IsNullOrEmpty(fileName)) {
                     throw new ArgumentException("Error: Invalid experiment file name");
                 }
                 Controller.LoadExperimentFromCsvFile(fileName);
@@ -194,9 +193,42 @@ namespace ExperimentsManager.Views
                     experiments.Add(exp);
                 }
 
-                ExperimentSelectionController exSelCon = new ExperimentSelectionController(seeds, significance, identifiers, experiments.ToArray());
-                exSelCon.RunAlgorithm();
-           
+                ExperimentSelectionController esc = new ExperimentSelectionController(seeds, significance, identifiers, experiments.ToArray());
+                SetStatusBarInfo("Running the experiment selection algorithm...", ProgressBarStatus.Visible);
+                expSelectionRunner.RunWorkerAsync(esc);
+            }
+        }
+
+        private void expSelectionRunner_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                ExperimentSelectionController esc = (ExperimentSelectionController)e.Argument;
+                if (esc == null) {
+                    throw new ArgumentNullException("Error: Missing argument for experiment selection algorithm");
+                }
+                esc.RunAlgorithm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                e.Cancel = true;
+            }
+        }
+
+        private void expSelectionRunner_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                throw new Exception("Error: Problem while running experiment selection algorithm");
+            }
+            else if (e.Cancelled)
+            {
+                SetStatusBarInfo("Error: Problem while running experiment selection algorithm", ProgressBarStatus.Hidden);
+            }
+            else
+            {
+                SetStatusBarInfo("Experiment selection completed successfully!", ProgressBarStatus.Hidden);
             }
         }
 

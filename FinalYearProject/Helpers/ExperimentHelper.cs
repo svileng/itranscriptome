@@ -158,9 +158,12 @@ namespace ExperimentsManager.Helpers
             List<double> result = new List<double>();
             
             string[] values = data.Split(';');
+            string temp;
             foreach (string value in values)
             {
-                result.Add(Convert.ToDouble(value));
+                temp = value; // we can't modify "value" because it's in the foreach loop, so we use a temporary string
+                if (value == "null") temp = "0.0";
+                result.Add(Convert.ToDouble(temp));
             }
 
             return result.ToArray();
