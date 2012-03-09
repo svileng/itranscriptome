@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ExperimentsControllerTests.cs" />
+    <Compile Include="Controllers\ExperimentSelectionControllerTests.cs" />
     <Compile Include="Models\ExperimentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\MainFormTests.cs" />

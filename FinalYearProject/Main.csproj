@@ -97,7 +97,6 @@
     <Compile Include="Models\ExperimentGSM.cs" />
     <Compile Include="SqlFactory.cs" />
     <Compile Include="Models\Experiment.cs" />
-    <Compile Include="Tests\MainFormTests.cs" />
     <Compile Include="Views\ExperimentDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>

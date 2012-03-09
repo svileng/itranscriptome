@@ -23,7 +23,7 @@ namespace ExperimentsManager.Controllers
         /// <summary>Default constructor</summary>
         public ExperimentSelectionController(int seeds, double significance, string[] identifiers, Experiment[] experiments)
         {
-            if (seeds == null || significance == null || identifiers == null || identifiers.Count() == 0 || experiments == null || experiments.Count() <= 1) {
+            if (identifiers == null || identifiers.Count() == 0 || experiments == null || experiments.Count() <= 1) {
                 throw new ArgumentNullException("Invalid arguments, experiment selection aborted");
             }
 
