@@ -20,3 +20,5 @@ Ankh.NoLoad
 *LOCAL*.cs
 *REMOTE*.cs
 TestResults
+publish
+setup.exe
