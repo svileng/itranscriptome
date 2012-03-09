@@ -66,14 +66,13 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.scMain = new System.Windows.Forms.SplitContainer();
-            this.scMainSubContainer = new System.Windows.Forms.SplitContainer();
-            this.statusStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.experimentLoader = new System.ComponentModel.BackgroundWorker();
             this.cmsExperiment = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.expSelectionRunner = new System.ComponentModel.BackgroundWorker();
             this.tsmiViewExperiment = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDeleteExperiment = new System.Windows.Forms.ToolStripMenuItem();
+            this.scMain = new System.Windows.Forms.SplitContainer();
+            this.scMainSubContainer = new System.Windows.Forms.SplitContainer();
+            this.experimentLoader = new System.ComponentModel.BackgroundWorker();
+            this.expSelectionRunner = new System.ComponentModel.BackgroundWorker();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.leftTabControl.SuspendLayout();
@@ -82,6 +81,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudSignificance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSeeds)).BeginInit();
             this.grpExperimentDetails.SuspendLayout();
+            this.cmsExperiment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
             this.scMain.Panel1.SuspendLayout();
             this.scMain.Panel2.SuspendLayout();
@@ -90,7 +90,6 @@
             this.scMainSubContainer.Panel1.SuspendLayout();
             this.scMainSubContainer.Panel2.SuspendLayout();
             this.scMainSubContainer.SuspendLayout();
-            this.cmsExperiment.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip
@@ -471,6 +470,29 @@
             this.columnHeader3.Text = "Tags";
             this.columnHeader3.Width = 116;
             // 
+            // cmsExperiment
+            // 
+            this.cmsExperiment.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiViewExperiment,
+            this.tsmiDeleteExperiment});
+            this.cmsExperiment.Name = "cmsExperiment";
+            this.cmsExperiment.Size = new System.Drawing.Size(153, 70);
+            this.cmsExperiment.Opening += new System.ComponentModel.CancelEventHandler(this.cmsExperiment_Opening);
+            // 
+            // tsmiViewExperiment
+            // 
+            this.tsmiViewExperiment.Name = "tsmiViewExperiment";
+            this.tsmiViewExperiment.Size = new System.Drawing.Size(152, 22);
+            this.tsmiViewExperiment.Text = "View Details...";
+            this.tsmiViewExperiment.Click += new System.EventHandler(this.tsmiViewExperiment_Click);
+            // 
+            // tsmiDeleteExperiment
+            // 
+            this.tsmiDeleteExperiment.Name = "tsmiDeleteExperiment";
+            this.tsmiDeleteExperiment.Size = new System.Drawing.Size(152, 22);
+            this.tsmiDeleteExperiment.Text = "Delete";
+            this.tsmiDeleteExperiment.Click += new System.EventHandler(this.tsmiDeleteExperiment_Click);
+            // 
             // scMain
             // 
             this.scMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -517,32 +539,10 @@
             this.experimentLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.experimentLoader_DoWork);
             this.experimentLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.experimentLoader_RunWorkerCompleted);
             // 
-            // cmsExperiment
             // expSelectionRunner
             // 
-            this.cmsExperiment.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiViewExperiment,
-            this.tsmiDeleteExperiment});
             this.expSelectionRunner.DoWork += new System.ComponentModel.DoWorkEventHandler(this.expSelectionRunner_DoWork);
             this.expSelectionRunner.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.expSelectionRunner_RunWorkerCompleted);
-            // 
-            this.cmsExperiment.Name = "cmsExperiment";
-            this.cmsExperiment.Size = new System.Drawing.Size(153, 70);
-            this.cmsExperiment.Opening += new System.ComponentModel.CancelEventHandler(this.cmsExperiment_Opening);
-            // 
-            // tsmiViewExperiment
-            // 
-            this.tsmiViewExperiment.Name = "tsmiViewExperiment";
-            this.tsmiViewExperiment.Size = new System.Drawing.Size(152, 22);
-            this.tsmiViewExperiment.Text = "View Details...";
-            this.tsmiViewExperiment.Click += new System.EventHandler(this.tsmiViewExperiment_Click);
-            // 
-            // tsmiDeleteExperiment
-            // 
-            this.tsmiDeleteExperiment.Name = "tsmiDeleteExperiment";
-            this.tsmiDeleteExperiment.Size = new System.Drawing.Size(152, 22);
-            this.tsmiDeleteExperiment.Text = "Delete";
-            this.tsmiDeleteExperiment.Click += new System.EventHandler(this.tsmiDeleteExperiment_Click);
             // 
             // MainForm
             // 
@@ -571,6 +571,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudSeeds)).EndInit();
             this.grpExperimentDetails.ResumeLayout(false);
             this.grpExperimentDetails.PerformLayout();
+            this.cmsExperiment.ResumeLayout(false);
             this.scMain.Panel1.ResumeLayout(false);
             this.scMain.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scMain)).EndInit();
@@ -579,7 +580,6 @@
             this.scMainSubContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scMainSubContainer)).EndInit();
             this.scMainSubContainer.ResumeLayout(false);
-            this.cmsExperiment.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

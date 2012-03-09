@@ -39,7 +39,6 @@
             this.txtExperimentDetails.Location = new System.Drawing.Point(12, 12);
             this.txtExperimentDetails.Multiline = true;
             this.txtExperimentDetails.Name = "txtExperimentDetails";
-            this.txtExperimentDetails.ReadOnly = true;
             this.txtExperimentDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtExperimentDetails.ShortcutsEnabled = false;
             this.txtExperimentDetails.Size = new System.Drawing.Size(515, 297);
