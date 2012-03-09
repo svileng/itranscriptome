@@ -12,3 +12,11 @@
 _ReSharper.*
 *.resharper
 Ankh.NoLoad
+*.orig
+*.testsettings
+*.vsmdi
+*BACKUP*.cs
+*BASE*.cs
+*LOCAL*.cs
+*REMOTE*.cs
+TestResults
