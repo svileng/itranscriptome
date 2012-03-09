@@ -11,7 +11,8 @@
     <RootNamespace>ExperimentsManager</RootNamespace>
     <AssemblyName>ExperimentsManager</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
@@ -24,7 +25,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -65,6 +66,7 @@
     <Reference Include="MathNet.Numerics">
       <HintPath>..\..\..\..\..\Downloads\MathNet.Numerics\lib\Net40\MathNet.Numerics.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite, Version=1.0.76.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
@@ -95,6 +97,7 @@
     <Compile Include="Models\ExperimentGSM.cs" />
     <Compile Include="SqlFactory.cs" />
     <Compile Include="Models\Experiment.cs" />
+    <Compile Include="Tests\MainFormTests.cs" />
     <Compile Include="Views\ExperimentDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
