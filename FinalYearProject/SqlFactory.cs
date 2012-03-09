@@ -165,7 +165,7 @@ namespace ExperimentsManager.Helpers
             return result.ToString();
         }
 
-        internal static string CreateSelectDatasetTableRowsForExperimentQuery(string experiment_id)
+        public static string CreateSelectDatasetTableRowsForExperimentQuery(string experiment_id)
         {
             if (string.IsNullOrEmpty(experiment_id)) {
                 throw new ArgumentNullException("Invalid query argument");
@@ -180,10 +180,10 @@ namespace ExperimentsManager.Helpers
             return result.ToString();
         }
 
-        internal static string CreateDeleteExperimentQueryFromObject(Experiment experiment)
+        public static string CreateDeleteExperimentQueryFromObject(Experiment experiment)
         {
             if (experiment == null) {
-                throw new ArgumentException();
+                throw new ArgumentNullException();
             }
 
             StringBuilder result = new StringBuilder();
