@@ -54,7 +54,7 @@
     <Compile Include="SqlFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FinalYearProject\Main.csproj">
+    <ProjectReference Include="..\Main\Main.csproj">
       <Project>{5E151978-9871-44C1-8E1B-DE314FA1BAC3}</Project>
       <Name>Main</Name>
     </ProjectReference>
