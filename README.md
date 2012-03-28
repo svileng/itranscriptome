@@ -1,7 +1,9 @@
-# Experiments Manager
+# iTranscriptome
 
-Tool for organising microarray datasets and more.
+iTranscriptome is a Windows application for storing and organising 
+transcriptomic datasets from the [Gene Expression Omnibus](http://www.ncbi.nlm.nih.gov/gds/).
 
-This is an early development version. More info soon!
+More info coming soon!
 
-Note: this is a personal repository. The official repository will soon be available at [paccanarolab.org](http://www.paccanarolab.org/).
+Note: this is a personal repository. The official repository will soon be 
+available at [paccanarolab.org](http://www.paccanarolab.org/).
