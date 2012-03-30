@@ -46,39 +46,70 @@ namespace ExperimentsManager.Controllers
 
                 CorrelationTable ct = new CorrelationTable();
 
-                for (int i = 0; i < e.DatasetTable.Count; i++)
-                {
-                    DatasetTableRow rowA = e.DatasetTable[i];
-
-                    for (int k = i + 1; k < e.DatasetTable.Count; k++)
-                    {
-                        DatasetTableRow rowB = e.DatasetTable[k];
-
-                        string id_a = rowA.Identifier;
-                        string id_b = rowB.Identifier;
-
-                        if (!ct.CorrelationExist(id_a, id_b))
-                        {
-                            double[] valuesA = ExperimentHelper.MakeArrayFromStringValues(rowA.Value);
-                            double[] valuesB = ExperimentHelper.MakeArrayFromStringValues(rowB.Value);
-                            double correlation = Correlation.Pearson(valuesA, valuesB);
-
-                            CorrelationResult cr = new CorrelationResult(id_a, id_b, correlation);
-                            ct.Correlations.Add(cr);
-                        }
-                    }
-                }
+                CalculatePairwiseCorrelations(e, ct);
 
                 // select the rows which correspond to the supplied identifiers
 
-                List<CorrelationResult> selectedIdentifiers = new List<CorrelationResult>();
+                List<CorrelationResult> selectedIdentifiersCorrelationVector = new List<CorrelationResult>();
+                List<CorrelationResult> filteredCorrelationsVector = new List<CorrelationResult>();
                 for (int i = ct.Correlations.Count - 1; i >= 0; i--)
                 {
                     CorrelationResult cr = ct.Correlations[i];
                     if (Identifiers.Contains(cr.IdentifierA) && Identifiers.Contains(cr.IdentifierB))
                     {
-                        selectedIdentifiers.Add(cr);
+                        selectedIdentifiersCorrelationVector.Add(cr);
                         ct.Correlations.RemoveAt(i);
+                    }
+                    else if (Identifiers.Contains(cr.IdentifierA) || Identifiers.Contains(cr.IdentifierB))
+                    {
+                        filteredCorrelationsVector.Add(cr);
+                        ct.Correlations.RemoveAt(i);
+                    }
+                }
+
+                // compute t-tests
+
+                TTestTable ttt = new TTestTable();
+
+                for (int i = 0; i < selectedIdentifiersCorrelationVector.Count; i++)
+                {
+                    CorrelationResult crA = selectedIdentifiersCorrelationVector[i];
+
+                    for (int k = 0; k < filteredCorrelationsVector.Count; k++)
+                    {
+                        CorrelationResult crB = filteredCorrelationsVector[k];
+
+                        if (!ttt.TTestExist(crA.IdentifierA, crA.IdentifierB, crB.IdentifierA, crB.IdentifierB))
+                        {
+                            TTest stt = new TTest(new double[] { crA.Value }, filteredCorrelationsVector[k].Value);
+                            ttt.TTests.Add(stt);
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void CalculatePairwiseCorrelations(Experiment e, CorrelationTable ct)
+        {
+            for (int i = 0; i < e.DatasetTable.Count; i++)
+            {
+                DatasetTableRow rowA = e.DatasetTable[i];
+
+                for (int k = i + 1; k < e.DatasetTable.Count; k++)
+                {
+                    DatasetTableRow rowB = e.DatasetTable[k];
+
+                    string id_a = rowA.Identifier;
+                    string id_b = rowB.Identifier;
+
+                    if (!ct.CorrelationExist(id_a, id_b))
+                    {
+                        double[] valuesA = ExperimentHelper.MakeArrayFromStringValues(rowA.Value);
+                        double[] valuesB = ExperimentHelper.MakeArrayFromStringValues(rowB.Value);
+                        double correlation = Correlation.Pearson(valuesA, valuesB);
+
+                        CorrelationResult cr = new CorrelationResult(id_a, id_b, correlation);
+                        ct.Correlations.Add(cr);
                     }
                 }
             }
@@ -125,12 +156,40 @@ namespace ExperimentsManager.Controllers
         }
     }
 
+    class TTestTable
+    {
+        public List<TTest> TTests { get; set; }
+
+        public TTestTable()
+        {
+            TTests = new List<TTest>();
+        }
+
+        public bool TTestExist(string id_a, string id_b, string id_c, string id_d)
+        {
+            bool result = false;
+
+            for (int i = 0; i < TTests.Count() && !result; i++)
+            {
+                TTest tt = TTests[i];
+                if (tt.Identifiers.Contains(id_a) && tt.Identifiers.Contains(id_b) && tt.Identifiers.Contains(id_c) && tt.Identifiers.Contains(id_d))
+                {
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+    }
+
     /// <summary>TTest class by George Bell, sharpstatistics.co.uk (http://sharpstatistics.co.uk/stats/t-test-in-c/)</summary>
     public class TTest
     {
         private StudentT tDistribution = new StudentT();
         private double testStatistic;
         private double p;
+
+        public List<string> Identifiers { get; set; }
 
         public double TestStatistics
         {
@@ -152,7 +211,7 @@ namespace ExperimentsManager.Controllers
         {
             tDistribution.DegreesOfFreedom = data.Length;
             testStatistic = T(data.Average(), testValue, Statistics.Variance(data), data.Length);
-            p = 2.0 * tDistribution.CumulativeDistribution(-1.0 * testStatistic);
+            p = Math.Round(2.0 * tDistribution.CumulativeDistribution(-1.0 * testStatistic), 5);
         }
 
         public TTest(double[] data1, double[] data2, bool equalVariance)

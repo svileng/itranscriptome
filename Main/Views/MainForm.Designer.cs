@@ -556,7 +556,7 @@
             this.MinimumSize = new System.Drawing.Size(600, 300);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Experiment Manager";
+            this.Text = "iTranscriptome";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();

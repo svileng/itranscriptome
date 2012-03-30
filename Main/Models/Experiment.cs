@@ -89,6 +89,7 @@ namespace ExperimentsManager.Models
             }
         }
 
+        /// <summary>Updates object's data in database</summary>
         public void Update()
         {
             SQLiteConnection dbConnection = DatabaseManager.Instance.Connection;
@@ -128,6 +129,7 @@ namespace ExperimentsManager.Models
             }
         }
 
+        /// <summary>Deletes object's data in database (including GSMs and DatasetRows)</summary>
         public void Delete()
         {
             SQLiteConnection dbConnection = DatabaseManager.Instance.Connection;

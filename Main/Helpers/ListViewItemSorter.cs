@@ -10,28 +10,15 @@ namespace ExperimentsManager.Helpers
     /// <summary>Custom sorter for ListView controls</summary>
     public class ListViewItemSorter : IComparer
     {
-        #region Private Variables
-        
+        #region Private Variables 
         private static ListViewItemSorter lvSorterSingleton;
-        private SortOrder order = SortOrder.Descending;
-        private int col = 0;
-        private int result = 0;
-
         #endregion
 
         #region Public Properties
 
-        public SortOrder Order
-        {
-            get { return order; }
-            set { order = value; }
-        }
+        public SortOrder Order { get; set; }
 
-        public int Column
-        {
-            get { return col; }
-            set { col = value; }
-        }
+        public int Column { get; set; }
 
         public static ListViewItemSorter Instance
         {
@@ -55,26 +42,27 @@ namespace ExperimentsManager.Helpers
         #region Public Methods
 
         /// <summary>Compare method override to sort columns alphabetically</summary>
-        /// <param name="x">First object used for the comparison</param>
-        /// <param name="y">Second object used for the comparison</param>
+        /// <param name="a">First object used for the comparison</param>
+        /// <param name="b">Second object used for the comparison</param>
         /// <returns>positive int for ascending sort, negative for descending, 0 otherwise</returns>
-        public int Compare(object x, object y)
+        public int Compare(object a, object b)
         {
+            int result = 0;
+
             try
             {
-                result = String.Compare(((ListViewItem)x).SubItems[col].Text, ((ListViewItem)y).SubItems[col].Text);
+                string aText = ((ListViewItem)a).SubItems[Column].Text;
+                string bText = ((ListViewItem)b).SubItems[Column].Text;
+                result = String.Compare(aText, bText);
 
-                if (order == SortOrder.Ascending)
+                switch (Order)
                 {
-                    return result;
-                }
-                else if (order == SortOrder.Descending)
-                {
-                    return (-result);
-                }
-                else
-                {
-                    return 0;
+                    case SortOrder.Ascending:
+                        return result;
+                    case SortOrder.Descending:
+                        return -result;
+                    default:
+                        return 0;
                 }
             }
             catch

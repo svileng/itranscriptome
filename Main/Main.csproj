@@ -131,6 +131,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="ModelsClassDiagram.cd" />
     <None Include="Main_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
