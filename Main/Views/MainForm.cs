@@ -50,6 +50,9 @@ namespace ExperimentsManager.Views
 
             InitializeComponent();
             Controller = controller;
+
+            // [WIP] hide experiment selection tab
+            leftTabControl.TabPages.RemoveAt(1);
         }
         #endregion
 
